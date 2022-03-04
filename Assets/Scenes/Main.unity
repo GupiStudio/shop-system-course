@@ -779,6 +779,34 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 315853557}
   m_CullTransparentMesh: 1
+--- !u!1 &400917670 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4804803518165346214, guid: 2433bc2777d7b5e49b8dce70a79fd98c, type: 3}
+  m_PrefabInstance: {fileID: 4804803517130887267}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &400917671
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 400917670}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9681f39c62dd1df479d80172027f6601, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _itemNotSelected: {r: 0, g: 0, b: 0, a: 0}
+  _itemSelected: {r: 0, g: 0, b: 0, a: 0}
+  _image: {fileID: 0}
+  _name: {fileID: 0}
+  _speed: {fileID: 0}
+  _power: {fileID: 0}
+  _price: {fileID: 0}
+  _purchase: {fileID: 0}
+  _buttonItem: {fileID: 0}
+  _itemImage: {fileID: 0}
+  _itemOutline: {fileID: 0}
 --- !u!1 &410476934
 GameObject:
   m_ObjectHideFlags: 0
@@ -1015,7 +1043,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 10.2
+  m_fontSize: 20
   m_fontSizeBase: 16.55
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1216,7 +1244,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.086846665}
   m_AnchorMax: {x: 1, y: 0.91583073}
-  m_AnchoredPosition: {x: 0, y: -7.779999}
+  m_AnchoredPosition: {x: 0, y: -7.780014}
   m_SizeDelta: {x: -15.68, y: -14.31}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!1 &748403198
@@ -1528,7 +1556,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &865421757
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2291,7 +2319,6 @@ GameObject:
   - component: {fileID: 1506161351}
   - component: {fileID: 1506161350}
   - component: {fileID: 1506161349}
-  - component: {fileID: 1506161348}
   m_Layer: 5
   m_Name: ButtonCloseShop
   m_TagString: Untagged
@@ -2319,19 +2346,6 @@ RectTransform:
   m_AnchoredPosition: {x: -52.130005, y: 33.31}
   m_SizeDelta: {x: 103.63, y: 31.39}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1506161348
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1506161346}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b06a767b95a34c046935be5adf3cc2a3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  targetScene: 2
 --- !u!114 &1506161349
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2773,6 +2787,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1867513676}
+  - component: {fileID: 1867513677}
   m_Layer: 5
   m_Name: UIShop
   m_TagString: Untagged
@@ -2800,6 +2815,21 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1867513677
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1867513675}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f10377961c2228646a4418b1fd4e18a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shopUI: {fileID: 865421756}
+  buttonOpenShop: {fileID: 1563969135}
+  buttonCloseShop: {fileID: 1506161351}
 --- !u!1 &1876195041
 GameObject:
   m_ObjectHideFlags: 0
@@ -3186,10 +3216,6 @@ PrefabInstance:
     - target: {fileID: 4804803518165346214, guid: 2433bc2777d7b5e49b8dce70a79fd98c, type: 3}
       propertyPath: m_Name
       value: ShopItem
-      objectReference: {fileID: 0}
-    - target: {fileID: 4804803518481668619, guid: 2433bc2777d7b5e49b8dce70a79fd98c, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 40.009995
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2433bc2777d7b5e49b8dce70a79fd98c, type: 3}
