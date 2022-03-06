@@ -57,12 +57,12 @@ public class CharacterItem : MonoBehaviour
 
     public void SetSpeed(int value)
     {
-        _speed.fillAmount = value / 100;
+        _speed.fillAmount = value / 100f;
     }
 
     public void SetPower(int value)
     {
-        _power.fillAmount = value / 100;
+        _power.fillAmount = value / 100f;
     }
 
     public void SetPrice(int value)
@@ -78,7 +78,7 @@ public class CharacterItem : MonoBehaviour
         _itemImage.color = _itemNotSelected;
     }
 
-    public void Onurchase(int itemIndex, UnityAction<int> action)
+    public void OnPurchase(int itemIndex, UnityAction<int> action)
     {
         _purchase.onClick.RemoveAllListeners();
         _purchase.onClick.AddListener(() => action.Invoke(itemIndex));

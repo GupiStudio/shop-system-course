@@ -779,34 +779,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 315853557}
   m_CullTransparentMesh: 1
---- !u!1 &400917670 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4804803518165346214, guid: 2433bc2777d7b5e49b8dce70a79fd98c, type: 3}
-  m_PrefabInstance: {fileID: 4804803517130887267}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &400917671
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 400917670}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9681f39c62dd1df479d80172027f6601, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _itemNotSelected: {r: 0, g: 0, b: 0, a: 0}
-  _itemSelected: {r: 0, g: 0, b: 0, a: 0}
-  _image: {fileID: 0}
-  _name: {fileID: 0}
-  _speed: {fileID: 0}
-  _power: {fileID: 0}
-  _price: {fileID: 0}
-  _purchase: {fileID: 0}
-  _buttonItem: {fileID: 0}
-  _itemImage: {fileID: 0}
-  _itemOutline: {fileID: 0}
 --- !u!1 &410476934
 GameObject:
   m_ObjectHideFlags: 0
@@ -1551,7 +1523,7 @@ GameObject:
   - component: {fileID: 865421759}
   - component: {fileID: 865421758}
   m_Layer: 5
-  m_Name: PanelDark
+  m_Name: PanelOverlay
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1700,7 +1672,7 @@ GameObject:
   m_Component:
   - component: {fileID: 977635565}
   m_Layer: 5
-  m_Name: Content
+  m_Name: ItemsContainer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2045,7 +2017,7 @@ GameObject:
   - component: {fileID: 1148602012}
   - component: {fileID: 1148602011}
   m_Layer: 5
-  m_Name: Panel
+  m_Name: PanelShopMenu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2214,6 +2186,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   textsCoins:
   - {fileID: 215646486}
+  - {fileID: 443508131}
 --- !u!4 &1201990332
 Transform:
   m_ObjectHideFlags: 0
@@ -2827,6 +2800,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f10377961c2228646a4418b1fd4e18a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _itemSpacing: 13
+  _shopItemsContainer: {fileID: 977635565}
+  _itemPrefab: {fileID: 4804803518165346214, guid: 2433bc2777d7b5e49b8dce70a79fd98c, type: 3}
+  _database: {fileID: 11400000, guid: b4c8309640e68a840b4fa93fb4cbccaa, type: 2}
   shopUI: {fileID: 865421756}
   buttonOpenShop: {fileID: 1563969135}
   buttonCloseShop: {fileID: 1506161351}
