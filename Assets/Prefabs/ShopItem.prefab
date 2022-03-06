@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4804803517677885479}
   - component: {fileID: 4804803517677885472}
   m_Layer: 5
-  m_Name: CharacterNameText
+  m_Name: PlayerNameText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -144,7 +144,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4804803517742096639}
   m_Layer: 5
-  m_Name: SpeedInfo
+  m_Name: SpeedInfoUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -185,7 +185,7 @@ GameObject:
   - component: {fileID: 4804803517922333559}
   - component: {fileID: 4804803517922333556}
   m_Layer: 5
-  m_Name: PuchaseButton
+  m_Name: ButtonPurchase
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -693,7 +693,7 @@ GameObject:
   - component: {fileID: 4804803518352832190}
   - component: {fileID: 4804803518352832191}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: PriceText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -901,7 +901,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4804803518479022049}
   m_Layer: 5
-  m_Name: PowerInfo
+  m_Name: PowerInfoUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -938,7 +938,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4804803518481668619}
   m_Layer: 5
-  m_Name: Description
+  m_Name: PlayerDescriptionUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1263,7 +1263,7 @@ GameObject:
   - component: {fileID: 4804803518973114784}
   - component: {fileID: 4804803518973114785}
   m_Layer: 5
-  m_Name: Image
+  m_Name: CoinImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1338,7 +1338,7 @@ GameObject:
   - component: {fileID: 4804803519016217596}
   - component: {fileID: 4804803519016217597}
   m_Layer: 5
-  m_Name: ActorImage
+  m_Name: PlayerImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

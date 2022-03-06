@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 42445499}
   - component: {fileID: 42445498}
   m_Layer: 5
-  m_Name: GraphicBackground
+  m_Name: CircleImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -208,7 +208,7 @@ GameObject:
   m_Component:
   - component: {fileID: 125841295}
   m_Layer: 5
-  m_Name: Header
+  m_Name: HeaderUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -226,7 +226,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 410476935}
-  - {fileID: 315853558}
+  - {fileID: 1949339720}
   m_Father: {fileID: 1148602010}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -313,7 +313,7 @@ GameObject:
   - component: {fileID: 215646487}
   - component: {fileID: 215646486}
   m_Layer: 5
-  m_Name: TextCoin
+  m_Name: CoinText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -447,7 +447,7 @@ GameObject:
   - component: {fileID: 263461800}
   - component: {fileID: 263461799}
   m_Layer: 5
-  m_Name: TextPlay
+  m_Name: PlayText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -581,7 +581,7 @@ GameObject:
   - component: {fileID: 287464629}
   - component: {fileID: 287464628}
   m_Layer: 5
-  m_Name: TextShop
+  m_Name: ShopText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -715,7 +715,7 @@ GameObject:
   - component: {fileID: 315853560}
   - component: {fileID: 315853559}
   m_Layer: 5
-  m_Name: CharacterCircle
+  m_Name: CircleImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -728,17 +728,16 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 315853557}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 2075757463}
-  m_Father: {fileID: 125841295}
-  m_RootOrder: 1
+  m_Children: []
+  m_Father: {fileID: 1949339720}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 18.570007, y: 0}
+  m_AnchoredPosition: {x: -114.643036, y: 0}
   m_SizeDelta: {x: 37.14, y: 37.14}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &315853559
@@ -791,7 +790,7 @@ GameObject:
   - component: {fileID: 410476937}
   - component: {fileID: 410476936}
   m_Layer: 5
-  m_Name: CoinsStatShop
+  m_Name: ShopCoinUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -868,7 +867,7 @@ GameObject:
   - component: {fileID: 441598764}
   - component: {fileID: 441598763}
   m_Layer: 5
-  m_Name: GraphicSprite
+  m_Name: PlayerImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -943,7 +942,7 @@ GameObject:
   - component: {fileID: 443508132}
   - component: {fileID: 443508131}
   m_Layer: 5
-  m_Name: TextCoin
+  m_Name: CoinText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1193,7 +1192,7 @@ GameObject:
   m_Component:
   - component: {fileID: 736819429}
   m_Layer: 5
-  m_Name: Body
+  m_Name: BodyUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1251,6 +1250,45 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &757596356
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 757596357}
+  m_Layer: 5
+  m_Name: MainMenuUI
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &757596357
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 757596356}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 1449880793}
+  - {fileID: 1876195042}
+  - {fileID: 1563969133}
+  - {fileID: 1705589968}
+  m_Father: {fileID: 1978099582}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &779438400
 GameObject:
   m_ObjectHideFlags: 0
@@ -1523,7 +1561,7 @@ GameObject:
   - component: {fileID: 865421759}
   - component: {fileID: 865421758}
   m_Layer: 5
-  m_Name: PanelOverlay
+  m_Name: OverlayPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1599,7 +1637,7 @@ GameObject:
   - component: {fileID: 955524165}
   - component: {fileID: 955524164}
   m_Layer: 5
-  m_Name: Image
+  m_Name: CoinImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1710,7 +1748,7 @@ GameObject:
   - component: {fileID: 1077585698}
   - component: {fileID: 1077585697}
   m_Layer: 5
-  m_Name: TextActorName
+  m_Name: PlayerNameText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2017,7 +2055,7 @@ GameObject:
   - component: {fileID: 1148602012}
   - component: {fileID: 1148602011}
   m_Layer: 5
-  m_Name: PanelShopMenu
+  m_Name: ShopMenuPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2213,7 +2251,7 @@ GameObject:
   - component: {fileID: 1449880795}
   - component: {fileID: 1449880794}
   m_Layer: 5
-  m_Name: CoinsStat
+  m_Name: CoinUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2226,18 +2264,18 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1449880792}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 955524163}
   - {fileID: 215646485}
-  m_Father: {fileID: 1978099582}
+  m_Father: {fileID: 757596357}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -0.5, y: -92.400024}
+  m_AnchoredPosition: {x: -0.5, y: 157.59998}
   m_SizeDelta: {x: 204.3, y: 54.16}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1449880794
@@ -2446,7 +2484,7 @@ GameObject:
   - component: {fileID: 1563969134}
   - component: {fileID: 1563969138}
   m_Layer: 5
-  m_Name: ButtonShop
+  m_Name: ShopButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2459,12 +2497,12 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1563969132}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 287464627}
-  m_Father: {fileID: 1978099582}
+  m_Father: {fileID: 757596357}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -2600,7 +2638,7 @@ GameObject:
   - component: {fileID: 1705589973}
   - component: {fileID: 1705589974}
   m_Layer: 5
-  m_Name: ButtonPlay
+  m_Name: PlayButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2613,12 +2651,12 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1705589967}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 263461798}
-  m_Father: {fileID: 1978099582}
+  m_Father: {fileID: 757596357}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -2762,7 +2800,7 @@ GameObject:
   - component: {fileID: 1867513676}
   - component: {fileID: 1867513677}
   m_Layer: 5
-  m_Name: UIShop
+  m_Name: ShopUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2781,7 +2819,7 @@ RectTransform:
   m_Children:
   - {fileID: 865421757}
   m_Father: {fileID: 1978099582}
-  m_RootOrder: 4
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -2801,12 +2839,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _itemSpacing: 13
+  _selectedCharacterIcon: {fileID: 2075757464}
   _shopItemsContainer: {fileID: 977635565}
   _itemPrefab: {fileID: 4804803518165346214, guid: 2433bc2777d7b5e49b8dce70a79fd98c, type: 3}
   _database: {fileID: 11400000, guid: b4c8309640e68a840b4fa93fb4cbccaa, type: 2}
   shopUI: {fileID: 865421756}
   buttonOpenShop: {fileID: 1563969135}
   buttonCloseShop: {fileID: 1506161351}
+  _mainMenuCharacterImage: {fileID: 441598763}
+  _mainMenuCharacterName: {fileID: 1077585697}
 --- !u!1 &1876195041
 GameObject:
   m_ObjectHideFlags: 0
@@ -2817,7 +2858,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1876195042}
   m_Layer: 5
-  m_Name: Actor
+  m_Name: PlayerIconUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2830,20 +2871,57 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1876195041}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 42445497}
   - {fileID: 441598762}
   - {fileID: 1077585696}
-  m_Father: {fileID: 1978099582}
+  m_Father: {fileID: 757596357}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 50.9}
   m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &1949339719
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1949339720}
+  m_Layer: 5
+  m_Name: ShopPlayerIconUI
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1949339720
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1949339719}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 315853558}
+  - {fileID: 2075757463}
+  m_Father: {fileID: 125841295}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1978099578
 GameObject:
@@ -2858,7 +2936,7 @@ GameObject:
   - component: {fileID: 1978099580}
   - component: {fileID: 1978099579}
   m_Layer: 5
-  m_Name: UIMain
+  m_Name: MainUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2936,10 +3014,7 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children:
-  - {fileID: 1449880793}
-  - {fileID: 1876195042}
-  - {fileID: 1563969133}
-  - {fileID: 1705589968}
+  - {fileID: 757596357}
   - {fileID: 1867513676}
   m_Father: {fileID: 0}
   m_RootOrder: 1
@@ -2961,7 +3036,7 @@ GameObject:
   - component: {fileID: 2075757465}
   - component: {fileID: 2075757464}
   m_Layer: 5
-  m_Name: CharacterImage
+  m_Name: PlayerImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2974,16 +3049,16 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2075757462}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 315853558}
-  m_RootOrder: 0
+  m_Father: {fileID: 1949339720}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: -9.779999, y: 0}
+  m_AnchoredPosition: {x: -142.99304, y: 0}
   m_SizeDelta: {x: 57.54, y: 57.54}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &2075757464
@@ -3036,7 +3111,7 @@ GameObject:
   - component: {fileID: 2084529140}
   - component: {fileID: 2084529139}
   m_Layer: 5
-  m_Name: Image
+  m_Name: CoinImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
