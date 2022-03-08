@@ -1,50 +1,67 @@
 using UnityEngine;
+using TMPro;
 
 public class Actor : MonoBehaviour
 {
-    public float speed = 1f;
+	public float speed = 1f;
 
-    private Rigidbody2D rigidbody;
+	[SerializeField]
+	private SpriteRenderer _playerImage;
 
-    private float x;
-    private float y;
-    
-    private bool moving = false;
+	[SerializeField]
+	private TMP_Text _playerName;
 
-    private void Awake()
-    {
-        rigidbody = GetComponent<Rigidbody2D>();
-    }
+	private Rigidbody2D rigidbody;
 
-    private void Update()
-    {
-        x = Input.GetAxis("Horizontal");
-        y = Input.GetAxis("Vertical");
+	private float x;
+	private float y;
+	
+	private bool moving = false;
 
-        moving = (x != 0 || y != 0);
-    }
+	private void Awake()
+	{
+		rigidbody = GetComponent<Rigidbody2D>();
 
-    private void FixedUpdate() 
-    {
-        if (!moving)
-        {
-            return;
-        }
+		ApplyActorData();
+	}
 
-        rigidbody.position += new Vector2(x, y) * speed * Time.fixedDeltaTime;
-    }
+	private void Update()
+	{
+		x = Input.GetAxis("Horizontal");
+		y = Input.GetAxis("Vertical");
 
-    private void OnCollisionEnter2D(Collision2D other) 
-    {
-        if (!other.gameObject.CompareTag("coin"))
-        {
-            return;
-        }
+		moving = (x != 0 || y != 0);
+	}
 
-        DataManager.AddCoins(5);
+	private void ApplyActorData()
+	{
+		var act = DataManager.GetSelectedCharacter();
 
-        SharedUI.instance.UpdateCoinsUITexts();
+		_playerName.text = act.name;
+		_playerImage.sprite = act.sprite;
+	}
 
-        Destroy(other.gameObject);
-    }
+	private void FixedUpdate() 
+	{
+		if (!moving)
+		{
+			return;
+		}
+
+		rigidbody.position += new Vector2(x, y) * speed * Time.fixedDeltaTime;
+	}
+
+	private void OnCollisionEnter2D(Collision2D other) 
+	{
+		if (!other.gameObject.CompareTag("coin"))
+		{
+			return;
+		}
+
+		DataManager.AddCoins(5);
+
+		SharedUI.instance.UpdateCoinsUITexts();
+
+		Destroy(other.gameObject);
+	}
 }

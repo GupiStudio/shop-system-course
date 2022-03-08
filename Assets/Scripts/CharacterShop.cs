@@ -1,190 +1,220 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
 public class CharacterShop : MonoBehaviour
 {
-    [Header("Layout Settings")]
+	[Header("Layout Settings")]
 
-    [SerializeField] private float _itemSpacing = 0.5f;
+	[SerializeField] private float _itemSpacing = 0.5f;
 
-    [Header("UI Elements")]
+	[Header("UI Elements")]
 
-    [SerializeField] private Image _selectedCharacterIcon;
-    [SerializeField] private Transform _shopItemsContainer;
-    [SerializeField] private GameObject _itemPrefab;
+	[SerializeField] private Image _selectedCharacterIcon;
+	[SerializeField] private Transform _shopItemsContainer;
+	[SerializeField] private GameObject _itemPrefab;
 
-    [Space(20f)]
+	[Space(20f)]
 
-    [SerializeField] private CharacterShopDatabase _database;
+	[SerializeField] private CharacterShopDatabase _database;
 
-    [Header("Shop Events")]
-    
-    [SerializeField] private GameObject shopUI;
-    [SerializeField] private Button buttonOpenShop;
-    [SerializeField] private Button buttonCloseShop;
+	[Header("Shop Events")]
 
-    [Space(20f)]
-    [Header("Main Menu")]
-    
-    [SerializeField] private Image _mainMenuCharacterImage;
-    [SerializeField] private TMP_Text _mainMenuCharacterName;
+	[SerializeField] private GameObject shopUI;
+	[SerializeField] private Button buttonOpenShop;
+	[SerializeField] private Button buttonCloseShop;
 
-    private float _itemHeight;
-    private int _newSelectedItemIndex = 0;
-    private int _previousSelectedItemIndex = 0;
+	[Space(20f)]
+	[Header("Main Menu")]
 
-    void Start()
-    {
-        AddShopEvents();
-        GenerateShopItemsUI();
-        SetSelectedCharacter();
+	[SerializeField] private Image _mainMenuCharacterImage;
+	[SerializeField] private TMP_Text _mainMenuCharacterName;
 
-        SelectItemUI(DataManager.GetSelectedCharacterIndex());
+	[Space(20f)] [Header("Purchase FX & Messages")] 
+	
+	[SerializeField]
+	private ParticleSystem _purchaseFX;
 
-        ChangePlayerSkin();
-    }
+	[SerializeField]
+	private Transform _purchaseFXPos;
 
-    private void SetSelectedCharacter()
-    {
-        int index = DataManager.GetSelectedCharacterIndex();
+	[SerializeField]
+	private TMP_Text _notEnoughCoinText;
 
-        DataManager.SetSelectedCharacter(_database.GetCharacter(index), index);
-    }
+	private float _itemHeight;
+	private int _newSelectedItemIndex = 0;
+	private int _previousSelectedItemIndex = 0;
 
-    private void GenerateShopItemsUI()
-    {
-        MatchDatabasePurchasedCharactersWithDataManager();
+	void Start()
+	{
+		_purchaseFX.transform.position = _purchaseFXPos.position;
 
-        _itemHeight = _shopItemsContainer.GetChild(0).GetComponent<RectTransform>().sizeDelta.y;
-        Destroy(_shopItemsContainer.GetChild(0).gameObject);
+		AddShopEvents();
+		GenerateShopItemsUI();
+		SetSelectedCharacter();
 
-        int count = _database.CharacterCount;
+		SelectItemUI(DataManager.GetSelectedCharacterIndex());
 
-        for (int i = 0; i < count; i++)
-        {
-            var character = _database.GetCharacter(i);
-            var uiItem = Instantiate(
-                _itemPrefab,
-                _shopItemsContainer
-            ).GetComponent<CharacterItem>();
+		ChangePlayerSkin();
+	}
 
-            uiItem.SetPosition(Vector2.down * i * (_itemHeight + _itemSpacing));
+	private void SetSelectedCharacter()
+	{
+		int index = DataManager.GetSelectedCharacterIndex();
 
-            uiItem.gameObject.name = "Item" + i + "-" + character.name;
+		DataManager.SetSelectedCharacter(_database.GetCharacter(index), index);
+	}
 
-            uiItem.SetName(character.name);
-            uiItem.SetSprite(character.sprite);
-            uiItem.SetSpeed(character.speed);
-            uiItem.SetPower(character.power);
-            uiItem.SetPrice(character.price);
+	private void GenerateShopItemsUI()
+	{
+		MatchDatabasePurchasedCharactersWithDataManager();
 
-            if (character.isPurchased)
-            {
-                uiItem.SetAsPurchased();
-                uiItem.OnSelect(i, OnItemSelected);
-            }
-            else
-            {
-                uiItem.SetPrice(character.price);
-                uiItem.OnPurchase(i, OnItemPurchased);
-            }
-        }
+		_itemHeight = _shopItemsContainer.GetChild(0).GetComponent<RectTransform>().sizeDelta.y;
+		Destroy(_shopItemsContainer.GetChild(0).gameObject);
 
-        _shopItemsContainer.GetComponent<RectTransform>().sizeDelta =
-                Vector2.up * ((_itemHeight + _itemSpacing) * count + _itemSpacing);
-    }
+		int count = _database.CharacterCount;
 
-    private void MatchDatabasePurchasedCharactersWithDataManager()
-    {
-        int purchasedCharacterCount = DataManager.GetPurchasedCharacterIndexes().Count;
+		for (int i = 0; i < count; i++)
+		{
+			var character = _database.GetCharacter(i);
+			var uiItem = Instantiate(
+				_itemPrefab,
+				_shopItemsContainer
+			).GetComponent<CharacterItem>();
 
-        for (int i = 0; i < purchasedCharacterCount; i++)
-        {
-            int index = DataManager.GetPurchasedCharacter(i);
-            _database.PurchaseCharacter(index);
-        }
-    }
+			uiItem.SetPosition(Vector2.down * i * (_itemHeight + _itemSpacing));
 
-    private void ChangePlayerSkin()
-    {
-        var character = DataManager.GetSelectedCharacter();
+			uiItem.gameObject.name = "Item" + i + "-" + character.name;
 
-        if (character.sprite != null)
-        {
-            _mainMenuCharacterImage.sprite = character.sprite;
-            _mainMenuCharacterName.text = character.name;
+			uiItem.SetName(character.name);
+			uiItem.SetSprite(character.sprite);
+			uiItem.SetSpeed(character.speed);
+			uiItem.SetPower(character.power);
+			uiItem.SetPrice(character.price);
 
-            _selectedCharacterIcon.sprite = DataManager.GetSelectedCharacter().sprite;
-        }
-    }
+			if (character.isPurchased)
+			{
+				uiItem.SetAsPurchased();
+				uiItem.OnSelect(i, OnItemSelected);
+			}
+			else
+			{
+				uiItem.SetPrice(character.price);
+				uiItem.OnPurchase(i, OnItemPurchased);
+			}
+		}
 
-    private void OnItemSelected(int index)
-    {
-        SelectItemUI(index);
+		_shopItemsContainer.GetComponent<RectTransform>().sizeDelta =
+				Vector2.up * ((_itemHeight + _itemSpacing) * count + _itemSpacing);
+	}
 
-        DataManager.SetSelectedCharacter(_database.GetCharacter(index), index);
+	private void MatchDatabasePurchasedCharactersWithDataManager()
+	{
+		int purchasedCharacterCount = DataManager.GetPurchasedCharacterIndexes().Count;
 
-        ChangePlayerSkin();
-    }
+		for (int i = 0; i < purchasedCharacterCount; i++)
+		{
+			int index = DataManager.GetPurchasedCharacter(i);
+			_database.PurchaseCharacter(index);
+		}
+	}
 
-    private void SelectItemUI(int index)
-    {
-        _previousSelectedItemIndex = _newSelectedItemIndex;
-        _newSelectedItemIndex = index;
+	private void ChangePlayerSkin()
+	{
+		var character = DataManager.GetSelectedCharacter();
 
-        var previousItem = GetItemUI(_previousSelectedItemIndex);
-        var newItem = GetItemUI(_newSelectedItemIndex);
+		if (character.sprite != null)
+		{
+			_mainMenuCharacterImage.sprite = character.sprite;
+			_mainMenuCharacterName.text = character.name;
 
-        previousItem.DeselectItem();
-        newItem.SelectItem();
-    }
+			_selectedCharacterIcon.sprite = DataManager.GetSelectedCharacter().sprite;
+		}
+	}
 
-    private CharacterItem GetItemUI(int index)
-    {
-        return _shopItemsContainer.GetChild(index).GetComponent<CharacterItem>();
-    }
+	private void OnItemSelected(int index)
+	{
+		SelectItemUI(index);
 
-    private void OnItemPurchased(int index)
-    {
-        var character = _database.GetCharacter(index);
-        var uiItem = GetItemUI(index);
+		DataManager.SetSelectedCharacter(_database.GetCharacter(index), index);
 
-        if (DataManager.CanSpendCoins(character.price))
-        {
-            DataManager.SpendCoins(character.price);
+		ChangePlayerSkin();
+	}
 
-            SharedUI.instance.UpdateCoinsUITexts();
+	private void SelectItemUI(int index)
+	{
+		_previousSelectedItemIndex = _newSelectedItemIndex;
+		_newSelectedItemIndex = index;
 
-            _database.PurchaseCharacter(index);
+		var previousItem = GetItemUI(_previousSelectedItemIndex);
+		var newItem = GetItemUI(_newSelectedItemIndex);
 
-            uiItem.SetAsPurchased();
-            uiItem.OnSelect(index, OnItemSelected);
+		previousItem.DeselectItem();
+		newItem.SelectItem();
+	}
 
-            DataManager.AddPurchasedCharacterIndex(index);
-        }
-        else
-        {
-            Debug.Log("Not enough coins!");
-        }
-    }
+	private CharacterItem GetItemUI(int index)
+	{
+		return _shopItemsContainer.GetChild(index).GetComponent<CharacterItem>();
+	}
 
-    private void AddShopEvents()
-    {
-        buttonOpenShop.onClick.RemoveAllListeners();
-        buttonCloseShop.onClick.RemoveAllListeners();
+	private void OnItemPurchased(int index)
+	{
+		var character = _database.GetCharacter(index);
+		var uiItem = GetItemUI(index);
 
-        buttonOpenShop.onClick.AddListener(OpenShop);
-        buttonCloseShop.onClick.AddListener(CloseShop);
-    }
+		if (DataManager.CanSpendCoins(character.price))
+		{
+			DataManager.SpendCoins(character.price);
 
-    private void OpenShop()
-    {
-        shopUI.SetActive(true);
-    }
+			_purchaseFX.Play();
 
-    private void CloseShop()
-    {
-        shopUI.SetActive(false);
-    }
+			SharedUI.instance.UpdateCoinsUITexts();
+
+			_database.PurchaseCharacter(index);
+
+			uiItem.SetAsPurchased();
+			uiItem.OnSelect(index, OnItemSelected);
+
+			DataManager.AddPurchasedCharacterIndex(index);
+		}
+		else
+		{
+			ShowNotEnoughCoinMessage();
+			uiItem.PlayItemShakeAnimation();
+		}
+	}
+
+	private void ShowNotEnoughCoinMessage()
+	{
+		_notEnoughCoinText.DOComplete();
+		_notEnoughCoinText.transform.DOComplete();
+
+		_notEnoughCoinText.DOFade(1f, 2.5f).From(0f).OnComplete(() =>
+		{
+			_notEnoughCoinText.DOFade(0f, 1f);
+		});
+
+		_notEnoughCoinText.transform.DOShakePosition(3f, new Vector3(5f, 0f, 0f), 10, 0f);
+	}
+
+	private void AddShopEvents()
+	{
+		buttonOpenShop.onClick.RemoveAllListeners();
+		buttonCloseShop.onClick.RemoveAllListeners();
+
+		buttonOpenShop.onClick.AddListener(OpenShop);
+		buttonCloseShop.onClick.AddListener(CloseShop);
+	}
+
+	private void OpenShop()
+	{
+		shopUI.SetActive(true);
+	}
+
+	private void CloseShop()
+	{
+		shopUI.SetActive(false);
+	}
 }
