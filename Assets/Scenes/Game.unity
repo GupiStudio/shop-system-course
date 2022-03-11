@@ -2068,6 +2068,7 @@ GameObject:
   - component: {fileID: 360580770}
   - component: {fileID: 360580769}
   - component: {fileID: 360580768}
+  - component: {fileID: 360580771}
   m_Layer: 0
   m_Name: Actor
   m_TagString: Untagged
@@ -2103,9 +2104,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a95376f4f65bb3489c78a4a6e7d9e73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 3
-  _playerImage: {fileID: 1663497757}
-  _playerName: {fileID: 994845863}
+  _imageHolder: {fileID: 1663497757}
+  _nameHolder: {fileID: 994845863}
+  Data:
+    Image: {fileID: 0}
+    Name: 
 --- !u!50 &360580769
 Rigidbody2D:
   serializedVersion: 4
@@ -2143,6 +2146,19 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.27
+--- !u!114 &360580771
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 360580766}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce842fa59b133574681b30dd0fb30e09, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _speed: 5
 --- !u!1 &374247665
 GameObject:
   m_ObjectHideFlags: 0

@@ -3,52 +3,28 @@ using TMPro;
 
 public class Actor : MonoBehaviour
 {
-	public float speed = 1f;
+	[SerializeField]
+	private SpriteRenderer _imageHolder;
 
 	[SerializeField]
-	private SpriteRenderer _playerImage;
+	private TMP_Text _nameHolder;
 
-	[SerializeField]
-	private TMP_Text _playerName;
-
-	private Rigidbody2D rigidbody;
-
-	private float x;
-	private float y;
-	
-	private bool moving = false;
+	[HideInInspector]
+	public ActorData Data;
 
 	private void Awake()
 	{
-		rigidbody = GetComponent<Rigidbody2D>();
-
-		ApplyActorData();
+		Data = new ActorData();
+		//ApplyActorData();
 	}
 
-	private void Update()
-	{
-		x = Input.GetAxis("Horizontal");
-		y = Input.GetAxis("Vertical");
-
-		moving = (x != 0 || y != 0);
-	}
-
+	// this method should be called somewhere else where all data load things are happening
 	private void ApplyActorData()
 	{
 		var act = DataManager.GetSelectedCharacter();
 
-		_playerName.text = act.name;
-		_playerImage.sprite = act.sprite;
-	}
-
-	private void FixedUpdate() 
-	{
-		if (!moving)
-		{
-			return;
-		}
-
-		rigidbody.position += new Vector2(x, y) * speed * Time.fixedDeltaTime;
+		SetImage(act.sprite);
+		SetName(act.name);
 	}
 
 	private void OnCollisionEnter2D(Collision2D other) 
@@ -63,5 +39,17 @@ public class Actor : MonoBehaviour
 		SharedUI.instance.UpdateCoinsUITexts();
 
 		Destroy(other.gameObject);
+	}
+
+	public void SetImage(Sprite sprite)
+	{
+		Data.Image = sprite;
+		_imageHolder.sprite = sprite;
+	}
+
+	public void SetName(string newName)
+	{
+		Data.Name = newName;
+		_nameHolder.text = newName;
 	}
 }
