@@ -12,30 +12,37 @@ namespace Gupi.TopDownGame2D
 
 		private Vector2 _movement;
 
-		private bool _moving;
+		public bool Moving => _movement.x != 0 || _movement.y != 0;
 
 		private void Awake()
 		{
 			_rigidbody = GetComponent<Rigidbody2D>();
-			_movement = new Vector2();
 		}
 
 		private void Update()
 		{
-			_movement.x = Input.GetAxis("Horizontal");
-			_movement.y = Input.GetAxis("Vertical");
-
-			_moving = _movement.x != 0 || _movement.y != 0;
+			UpdateMovementDirection();
 		}
 
 		private void FixedUpdate()
 		{
-			if (!_moving)
+			if (!Moving)
 			{
 				return;
 			}
 
-			_rigidbody.position += _movement * _speed * Time.fixedDeltaTime;
+			Move(_movement);
+		}
+
+		private void UpdateMovementDirection()
+		{
+			_movement.x = Input.GetAxis("Horizontal");
+			_movement.y = Input.GetAxis("Vertical");
+		}
+
+		private void Move(Vector2 direction)
+		{
+			_rigidbody.position += direction * _speed * Time.fixedDeltaTime;
 		}
 	}
 }
