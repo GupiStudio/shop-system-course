@@ -7,7 +7,7 @@ namespace Gupi2D
 	public class CollisionHandler : MonoBehaviour
 	{
 		[SerializeField]
-		private string[] _checkCollisionWithTags;
+		private string[] _tagsToCheckWith;
 
 		[Space(20f)]
 
@@ -16,26 +16,23 @@ namespace Gupi2D
 
 		[SerializeField]
 		private bool _autoDestroyCollided = false;
-		
-		[Space(20f)]
 
+		[Space(5f)]
+
+		[Header("Action/s Upon Collision")]
 		[SerializeField]
 		private UnityEvent _onCollision;
-
-		private GameObject _collidedGameObject;
 
 		private int _tagsCount;
 
 		private void Awake()
 		{
-			_tagsCount = _checkCollisionWithTags.Length;
+			_tagsCount = _tagsToCheckWith.Length;
 		}
 
 		private void OnCollisionEnter2D(Collision2D collision)
 		{
 			if (!TagRegistered(collision.gameObject.tag)) return;
-
-			_collidedGameObject = collision.gameObject;
 
 			_onCollision.Invoke();
 
@@ -56,7 +53,7 @@ namespace Gupi2D
 
 			for (int i = 0; i < _tagsCount; i++)
 			{
-				if (_checkCollisionWithTags[i] == tag) return true;
+				if (_tagsToCheckWith[i] == tag) return true;
 			}
 
 			return false;

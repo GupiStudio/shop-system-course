@@ -2172,7 +2172,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e151aaaae5f30e40b7bce71ec4742d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _checkCollisionWithTags:
+  _tagsToCheckWith:
   - coin
   _autoDestroyThis: 0
   _autoDestroyCollided: 1
