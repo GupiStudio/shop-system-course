@@ -2069,6 +2069,7 @@ GameObject:
   - component: {fileID: 360580769}
   - component: {fileID: 360580768}
   - component: {fileID: 360580771}
+  - component: {fileID: 360580772}
   m_Layer: 0
   m_Name: Actor
   m_TagString: Untagged
@@ -2107,8 +2108,8 @@ MonoBehaviour:
   _imageHolder: {fileID: 1663497757}
   _nameHolder: {fileID: 994845863}
   Data:
-    Image: {fileID: 0}
-    Name: 
+    Image: {fileID: 21300000, guid: 6e980baa502e72148bbc79fb42c81d10, type: 3}
+    Name: Frogi
 --- !u!50 &360580769
 Rigidbody2D:
   serializedVersion: 4
@@ -2158,7 +2159,38 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce842fa59b133574681b30dd0fb30e09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 5
+  Speed: 5
+--- !u!114 &360580772
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 360580766}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e151aaaae5f30e40b7bce71ec4742d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _checkCollisionWithTags:
+  - coin
+  _autoDestroyThis: 0
+  _autoDestroyCollided: 1
+  _onCollision:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 360580768}
+        m_TargetAssemblyTypeName: Actor, Assembly-CSharp
+        m_MethodName: CollectCoin
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &374247665
 GameObject:
   m_ObjectHideFlags: 0

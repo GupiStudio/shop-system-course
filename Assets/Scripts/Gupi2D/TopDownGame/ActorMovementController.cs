@@ -1,12 +1,11 @@
 using UnityEngine;
 
-namespace Gupi.TopDownGame2D
+namespace Gupi2D.TopDownGame
 {
 	[RequireComponent(typeof(Rigidbody2D))]
 	public class ActorMovementController : MonoBehaviour
 	{
-		[SerializeField]
-		private float _speed;
+		public float Speed = 1f;
 
 		private Rigidbody2D _rigidbody;
 
@@ -42,7 +41,7 @@ namespace Gupi.TopDownGame2D
 
 		private void Move(Vector2 direction)
 		{
-			_rigidbody.position += direction * _speed * Time.fixedDeltaTime;
+			_rigidbody.position += direction * Speed * Time.fixedDeltaTime;
 		}
 	}
 }

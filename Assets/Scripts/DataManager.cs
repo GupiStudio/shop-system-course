@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class DataManager : MonoBehaviour
 {
-    private static PlayerData playerData = new PlayerData();
+    private static UserData _userData;
     private static ShopData shopData = new ShopData();
 
     private static Character selectedCharacter;
@@ -25,36 +25,36 @@ public class DataManager : MonoBehaviour
     public static void SetSelectedCharacter(Character character, int index)
     {
         selectedCharacter = character;
-        playerData.SelectedCharacterIndex = index;
+        _userData.SelectedCharacterIndex = index;
         SavePlayerData();
     }
 
     public static int GetSelectedCharacterIndex()
     {
-        return playerData.SelectedCharacterIndex;
+        return _userData.SelectedCharacterIndex;
     }
 
     public static int GetCoins()
     {
-        return playerData.coins;
+        return _userData.CoinCount;
     }
 
     public static void AddCoins(int amount)
     {
-        playerData.coins += amount;
+        _userData.CoinCount += amount;
         SavePlayerData();
     }
 
     public static bool CanSpendCoins(int amount)
     {
-        return playerData.coins >= amount;
+        return _userData.CoinCount >= amount;
     }
 
     public static void SpendCoins(int amount)
     {
         if (CanSpendCoins(amount))
         {
-            playerData.coins -= amount;
+            _userData.CoinCount -= amount;
             
             SavePlayerData();
         }
@@ -62,12 +62,12 @@ public class DataManager : MonoBehaviour
 
     public static void LoadPlayerData()
     {
-        playerData = BinarySerializer.Load<PlayerData>(playerDataFileName);
+        _userData = BinarySerializer.Load<UserData>(playerDataFileName);
     }
 
     public static void SavePlayerData()
     {
-        BinarySerializer.Save<PlayerData>(playerData, playerDataFileName);
+        BinarySerializer.Save<UserData>(_userData, playerDataFileName);
     }
 
     public static void AddPurchasedCharacterIndex(int index)

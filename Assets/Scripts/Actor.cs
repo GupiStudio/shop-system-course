@@ -9,13 +9,13 @@ public class Actor : MonoBehaviour
 	[SerializeField]
 	private TMP_Text _nameHolder;
 
-	[HideInInspector]
 	public ActorData Data;
 
 	private void Awake()
 	{
-		Data = new ActorData();
-		//ApplyActorData();
+		// below codes should be called somewhere else where all data load things are happening
+		SetImage(Data.Image);
+		SetName(Data.Name);
 	}
 
 	// this method should be called somewhere else where all data load things are happening
@@ -25,20 +25,6 @@ public class Actor : MonoBehaviour
 
 		SetImage(act.sprite);
 		SetName(act.name);
-	}
-
-	private void OnCollisionEnter2D(Collision2D other) 
-	{
-		if (!other.gameObject.CompareTag("coin"))
-		{
-			return;
-		}
-
-		DataManager.AddCoins(5);
-
-		SharedUI.instance.UpdateCoinsUITexts();
-
-		Destroy(other.gameObject);
 	}
 
 	public void SetImage(Sprite sprite)
@@ -51,5 +37,12 @@ public class Actor : MonoBehaviour
 	{
 		Data.Name = newName;
 		_nameHolder.text = newName;
+	}
+
+	public void CollectCoin()
+	{
+		DataManager.AddCoins(5);
+
+		SharedUI.instance.UpdateCoinsUITexts();
 	}
 }
