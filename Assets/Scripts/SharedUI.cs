@@ -3,31 +3,26 @@ using TMPro;
 
 public class SharedUI : MonoBehaviour
 {
-    public static SharedUI instance;
+    public static SharedUI Instance;
 
     [SerializeField]
     private TMP_Text[] textsCoins;
     
     private void Awake()
     {
-        if (instance == null)
+        if (Instance == null)
         {
-            instance = this;
+            Instance = this;
         }
     }
 
-    private void Start()
-    {
-        UpdateCoinsUITexts();
-    }
-
-    public void UpdateCoinsUITexts()
+    public void UpdateCoinsUITexts(int value)
     {
         int countTextUI = textsCoins.Length;
         
         for (int i = 0; i < countTextUI; i++)
         {
-            SetUICoinText(textsCoins[i], DataManager.GetCoins());
+            SetUICoinText(textsCoins[i], value);
         }
     }
 

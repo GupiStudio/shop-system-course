@@ -2,5 +2,5 @@
 public struct UserData
 {
     public int CoinCount;
-    public int SelectedCharacterIndex;
+    public int SelectedActorIndex;
 }

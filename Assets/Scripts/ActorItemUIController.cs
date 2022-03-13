@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine.Events;
 using DG.Tweening;
 
-public class CharacterItem : MonoBehaviour
+public class ActorItemUIController : MonoBehaviour
 {
 	[SerializeField]
 	private Color _itemNotSelected;
