@@ -6,11 +6,9 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     [SerializeField] private IntValueSO _coinWorth;
-    [SerializeField] private GameObject _userSavedDataGameObject;
+    [SerializeField] private UserManager _userManager;
     [SerializeField] private CoinUI _coinUI;
-
-    private IUserSavedData _userSavedData;
-
+    
     private void Awake()
     {
         Construct();
@@ -19,25 +17,18 @@ public class GameManager : MonoBehaviour
 
     public void CollectCoin()
     {
-        var currentData = _userSavedData.UserData;
-        currentData.Coins += _coinWorth.value;
-
-        UserData data = currentData;
-        _userSavedData.UserData = data;
-        _coinUI.SetAmount(_userSavedData.UserData.Coins);
+        _userManager.AddCoin((uint)_coinWorth.value);
+        _coinUI.SetAmount(_userManager.GetCurrentCoin());
     }
 
     private void Construct()
     {
-        _userSavedData ??= _userSavedDataGameObject.GetComponent<IUserSavedData>();
+        //
     }
 
     private void Initialize()
     {
-        var coin = _userSavedData.UserData.Coins;
-        #if UNITY_EDITOR
-        Debug.Log("Coins: " + coin);
-        #endif
+        var coin = _userManager.GetCurrentCoin();
         _coinUI.SetAmount(coin);
     }
 }

@@ -6,24 +6,26 @@ public class ShopDatabase : MonoBehaviour, IShopDatabase
 {
     [SerializeField] private ActorsDatabase _actorsDatabase;
 
-    private List<ActorData> _actorsInSale;
+    private List<ActorData> _actorsList;
+
+    private ActorData _actorInUse;
     
-    public List<ActorData> ActorsInSale
+    public List<ActorData> ActorsList
     {
         get
         {
-            if (_actorsInSale != null) return _actorsInSale;
+            if (_actorsList != null) return _actorsList;
             
             var databaseLength = _actorsDatabase.ActorDatas.Length;
                 
-            _actorsInSale = new List<ActorData>(databaseLength);
+            _actorsList = new List<ActorData>(databaseLength);
 
             for (var i = 0; i < databaseLength; i++)
             {
-                _actorsInSale.Add(_actorsDatabase.ActorDatas[i]);
+                _actorsList.Add(_actorsDatabase.ActorDatas[i]);
             }
 
-            return _actorsInSale;
+            return _actorsList;
         }
     }
 }

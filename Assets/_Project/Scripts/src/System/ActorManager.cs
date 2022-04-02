@@ -10,11 +10,8 @@ public class ActorManager : MonoBehaviour
     [SerializeField] private ActorController _controller;
     [SerializeField] private GameActorUI _ui;
 
-    [SerializeField] private GameObject _userSavedDataGameObject;
-    [SerializeField] private GameObject _shopDatabaseGameObject;
-    
-    private IUserSavedData _userSavedData;
-    private IShopDatabase _shopDatabase;
+    [SerializeField] private UserManager _userManager;
+    [SerializeField] private ShopManager _shopManager;
     
     private void Awake()
     {
@@ -24,19 +21,21 @@ public class ActorManager : MonoBehaviour
     
     private void Construct()
     {
-        _userSavedData ??= _userSavedDataGameObject.GetComponent<IUserSavedData>();
-        _shopDatabase ??= _shopDatabaseGameObject.GetComponent<IShopDatabase>();
+        //
     }
     
     private void Initialize()
     {
-        // LoadData();
+        LoadData();
     }
 
     private void LoadData()
     {
-        var currentIndex = _userSavedData.UserData.CurrentActorIndex;
-        var currentActor = _shopDatabase.ActorsInSale[currentIndex];
+        var currentIndex = _userManager.GetCurrentActorIndex();
+        
+        var actorList = _shopManager.GetActorsList();
+
+        var currentActor = actorList[currentIndex];
         
         _controller.SetSpeed(currentActor.Speed);
         

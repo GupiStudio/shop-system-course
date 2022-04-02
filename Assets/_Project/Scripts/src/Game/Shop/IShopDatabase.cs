@@ -4,5 +4,5 @@ using UnityEngine;
 
 public interface IShopDatabase
 {
-    List<ActorData> ActorsInSale { get; }
+    List<ActorData> ActorsList { get; }
 }

@@ -72,7 +72,7 @@ public class ShopUI : MonoBehaviour
 		if (_shopItemsContainer.GetChild(0).gameObject)
 			Destroy(_shopItemsContainer.GetChild(0).gameObject);
 
-		var actorsInSale = _shopManager.GetActorsInsSale();
+		var actorsInSale = _shopManager.GetActorsList();
 
 		var count = actorsInSale.Count;
 
