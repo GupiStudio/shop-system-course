@@ -2,128 +2,96 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using System.Collections.Generic;
 
 public class ShopUI : MonoBehaviour
 {
-	[SerializeField] private ShopManager _shopManager;
-	[SerializeField] private UserManager _userManager;
-	
-    [SerializeField]
-    private float _itemSpacing = 0.5f;
+	[SerializeField] private Shop _shop;
+	[SerializeField] private Wallet _wallet;
 
-    [SerializeField]
-    private GameObject shopUI;
+	[Space(10f)]
 
-    [SerializeField]
-    private Button buttonOpenShop;
+	[SerializeField] private float _itemSpacing = 0.5f;
 
-    [SerializeField]
-    private Button buttonCloseShop;
+    [SerializeField] private Transform _shopItemsContainer;
 
-    [SerializeField]
-    private Image _selectedCharacterIcon;
+    [SerializeField] private GameObject _shopItemPrefab;
 
-    [SerializeField]
-    private Transform _shopItemsContainer;
+    [SerializeField] private ParticleSystem _purchaseFX;
 
-    [SerializeField]
-    private GameObject _itemPrefab;
+    [SerializeField] private Transform _purchaseFXPos;
 
-    [SerializeField]
-    private ParticleSystem _purchaseFX;
+    [SerializeField] private TMP_Text _notEnoughCoinText;
 
-    [SerializeField]
-    private Transform _purchaseFXPos;
+	private List<ActorData> _actorsData;
+	private List<ShopItemUI> _shopItems;
 
-    [SerializeField]
-    private TMP_Text _notEnoughCoinText;
-    
     private int _newSelectedItemIndex = 0;
     private int _previousSelectedItemIndex = 0;
-	
-    private float _itemHeight;
 
-    private void Awake()
-    {
-	    Initialize();
-        CloseShop();
-    }
+	private float _itemHeight;
 
-    private void Initialize()
+	public void Construct()
 	{
 		_purchaseFX.transform.position = _purchaseFXPos.position;
-
-        GenerateShopItemsUI();
 	}
 
-    private void OpenShop()
+	public void InitializeShopItems(List<Sprite> avatars, List<ActorData> actorsData, int selectedIndex = 0)
 	{
-		shopUI.SetActive(true);
-	}
+		_actorsData ??= new List<ActorData>(actorsData);
+		_shopItems ??= new List<ShopItemUI>();
 
-	private void CloseShop()
-	{
-		shopUI.SetActive(false);
-	}
+		if (_shopItems.Count > 0)
+			_shopItems.Clear();
 
-    private void GenerateShopItemsUI()
-	{
-		_itemHeight = _shopItemsContainer.GetChild(0).GetComponent<RectTransform>().sizeDelta.y;
-		if (_shopItemsContainer.GetChild(0).gameObject)
-			Destroy(_shopItemsContainer.GetChild(0).gameObject);
+		_itemHeight = _shopItemPrefab.GetComponent<RectTransform>().sizeDelta.y;
 
-		var actorsInSale = _shopManager.GetActorsList();
-
-		var count = actorsInSale.Count;
+		var count = actorsData.Count;
 
 		for (var i = 0; i < count; i++)
 		{
-			var character = actorsInSale[i];
-			var uiItem = Instantiate(
-				_itemPrefab,
-				_shopItemsContainer
-			).GetComponent<ShopItemUI>();
+			var character = actorsData[i];
 
-			uiItem.SetPosition(Vector2.down * i * (_itemHeight + _itemSpacing));
+			var shopItem = Instantiate(
+				_shopItemPrefab,
+				_shopItemsContainer).GetComponent<ShopItemUI>();
 
-			uiItem.gameObject.name = "Item" + i + "-" + character.Name;
+			shopItem.gameObject.name = "Item" + i + "-" + character.Name;
 
-			uiItem.SetName(character.Name);
-			uiItem.SetSpeed(character.Speed);
-			uiItem.SetPower(character.Power);
-			uiItem.SetPrice(character.Price);
+			shopItem.Initialize(
+				i,
+				avatars[i],
+				actorsData[i],
+				OnItemSelect,
+				OnItemPurchase
+				);
 
-			if (character.IsPurchased)
+			shopItem.SetPosition(Vector2.down * i * (_itemHeight + _itemSpacing));
+
+			if (i == selectedIndex)
 			{
-				uiItem.SetAsPurchased();
-				uiItem.OnSelect(i, OnItemSelected);
+				shopItem.SelectItem();
 			}
-			else
-			{
-				uiItem.SetPrice(character.Price);
-				uiItem.OnPurchase(i, OnItemPurchase);
-			}
+
+			_shopItems.Add(shopItem);
 		}
 
 		_shopItemsContainer.GetComponent<RectTransform>().sizeDelta =
-				Vector2.up * ((_itemHeight + _itemSpacing) * count + _itemSpacing);
+				Vector2.up * (((_itemHeight + _itemSpacing) * count) + _itemSpacing);
 	}
 
-    private void OnItemSelected(int index)
-	{
-		SelectItemUI(index);
-	}
-
-	private void SelectItemUI(int index)
+    private void OnItemSelect(int index)
 	{
 		_previousSelectedItemIndex = _newSelectedItemIndex;
 		_newSelectedItemIndex = index;
 
-		var previousItem = GetItemUI(_previousSelectedItemIndex);
-		var newItem = GetItemUI(_newSelectedItemIndex);
+		var previousItem = _shopItems[_previousSelectedItemIndex];
+		var newItem = _shopItems[_newSelectedItemIndex];
 
 		previousItem.DeselectItem();
 		newItem.SelectItem();
+
+		_shop?.Select(index);
 	}
 
 	private ShopItemUI GetItemUI(int index)
@@ -133,23 +101,28 @@ public class ShopUI : MonoBehaviour
 
 	private void OnItemPurchase(int index)
 	{
-		// var actor = _database.GetActor(index);
-		// var uiItem = GetItemUI(index);
-  //
-  //       if (ShopManager.Instance.Purchase(index))
-  //       {
-  //           _purchaseFX.Play();
-  //
-		// 	// SharedUI.Instance.UpdateCoinsUITexts();
-  //
-		// 	uiItem.SetAsPurchased();
-		// 	uiItem.OnSelect(index, OnItemSelected);
-  //       }
-		// else
-		// {
-		// 	ShowNotEnoughCoinMessage();
-		// 	uiItem.PlayItemShakeAnimation();
-		// }
+		var shopItem = _shopItems[index];
+
+		var actor = _actorsData[index];
+
+		if (_wallet.Data.Amount < actor.Price)
+		{
+			ShowNotEnoughCoinMessage();
+			shopItem.PlayItemShakeAnimation();
+			return;
+		}
+
+		var wallet = _wallet.Data;
+		wallet.Amount -= actor.Price;
+		_wallet.Data = wallet;
+
+		_shop.Purchase(index);
+
+		actor.IsPurchased = true;
+
+		shopItem.ActorData = actor;
+
+		_purchaseFX.Play();
 	}
 
 	private void ShowNotEnoughCoinMessage()
@@ -157,10 +130,7 @@ public class ShopUI : MonoBehaviour
 		_notEnoughCoinText.DOComplete();
 		_notEnoughCoinText.transform.DOComplete();
 
-		_notEnoughCoinText.DOFade(1f, 2.5f).From(0f).OnComplete(() =>
-		{
-			_notEnoughCoinText.DOFade(0f, 1f);
-		});
+		_notEnoughCoinText.DOFade(1f, 2.5f).From(0f).OnComplete(() => _notEnoughCoinText.DOFade(0f, 1f));
 
 		_notEnoughCoinText.transform.DOShakePosition(3f, new Vector3(5f, 0f, 0f), 10, 0f);
 	}

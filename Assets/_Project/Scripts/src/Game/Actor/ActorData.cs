@@ -4,10 +4,10 @@ using UnityEngine;
 public struct ActorData
 {
     public int Id;
-    
+
     public string Name;
-    
-    [Range(1, 100)] 
+
+    [Range(1, 100)]
     public int Speed;
 
     [Range(1, 100)]

@@ -1,4 +1,5 @@
+[System.Serializable]
 public struct WalletData
 {
-    public int Coins { get; set; }
+    public int Amount { get; set; }
 }

@@ -3,5 +3,5 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "NewIntegerValue", menuName = "Integer Value")]
 public class IntValueSO : ScriptableObject
 {
-    public int value  = 0;
+    public int Value  = 0;
 }

@@ -1,45 +1,66 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using UnityEngine.Events;
 using DG.Tweening;
+using System;
+using UnityEngine.Events;
 
 public class ShopItemUI : MonoBehaviour
 {
-	[SerializeField]
-	private Color _itemNotSelected;
+	[SerializeField] private Color _itemNotSelected;
 
-	[SerializeField]
-	private Color _itemSelected;
+	[SerializeField] private Color _itemSelected;
 
 	[Space(20f)]
-	[SerializeField]
-	private Image _image;
+	[SerializeField] private Image _image;
 
-	[SerializeField]
-	private TMP_Text _name;
+	[SerializeField] private TMP_Text _name;
 
-	[SerializeField]
-	private Image _speed;
+	[SerializeField] private Image _speed;
 
-	[SerializeField]
-	private Image _power;
+	[SerializeField] private Image _power;
 
-	[SerializeField]
-	private TMP_Text _price;
+	[SerializeField] private TMP_Text _price;
 
-	[SerializeField]
-	private Button _purchase;
+	[SerializeField] private Button _purchase;
 
 	[Space(20f)]
-	[SerializeField]
-	private Button _itemButton;
+	[SerializeField] private Button _itemButton;
 
-	[SerializeField]
-	private Image _itemImage;
+	[SerializeField] private Image _itemImage;
 
-	[SerializeField]
-	private Outline _itemOutline;
+	[SerializeField] private Outline _itemOutline;
+
+	private ActorData _actorData;
+
+	public void Initialize(int itemIndex, Sprite avatar, ActorData actorData, UnityAction<int> onSelect = null, UnityAction<int> onPurchase = null)
+	{
+		_purchase.onClick.RemoveAllListeners();
+		_purchase.onClick.AddListener(() => onPurchase?.Invoke(itemIndex));
+
+		_itemButton.onClick.RemoveAllListeners();
+		_itemButton.onClick.AddListener(() => onSelect?.Invoke(itemIndex));
+
+		SetSprite(avatar);
+		ActorData = actorData;
+	}
+
+	public ActorData ActorData
+	{
+		get => _actorData;
+		set
+		{
+			_actorData = value;
+
+			SetName(_actorData.Name);
+			SetSpeed(_actorData.Speed);
+			SetPower(_actorData.Power);
+			SetPrice(_actorData.Price);
+
+			if (_actorData.IsPurchased)
+				SetAsPurchased();
+		}
+	}
 
 	public void SetPosition(Vector2 pos)
 	{
@@ -51,45 +72,32 @@ public class ShopItemUI : MonoBehaviour
 		_image.sprite = sprite;
 	}
 
-	public void SetName(string text)
+	private void SetName(string name)
 	{
 		_name.text = name;
 	}
 
-	public void SetSpeed(int value)
+	private void SetSpeed(int value)
 	{
 		_speed.fillAmount = value / 100f;
 	}
 
-	public void SetPower(int value)
+	private void SetPower(int value)
 	{
 		_power.fillAmount = value / 100f;
 	}
 
-	public void SetPrice(int value)
+	private void SetPrice(int value)
 	{
 		_price.text = value.ToString();
 	}
 
-	public void SetAsPurchased()
+	private void SetAsPurchased()
 	{
 		_purchase.gameObject.SetActive(false);
 		_itemButton.interactable = true;
 
 		_itemImage.color = _itemNotSelected;
-	}
-
-	public void OnPurchase(int itemIndex, UnityAction<int> action)
-	{
-		_purchase.onClick.RemoveAllListeners();
-		_purchase.onClick.AddListener(() => action.Invoke(itemIndex));
-	}
-
-	public void OnSelect(int itemIndex, UnityAction<int> action)
-	{
-		_itemButton.interactable = true;
-		_itemButton.onClick.RemoveAllListeners();
-		_itemButton.onClick.AddListener(() => action.Invoke(itemIndex));
 	}
 
 	public void SelectItem()
