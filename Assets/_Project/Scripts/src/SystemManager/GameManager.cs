@@ -64,8 +64,7 @@ namespace Froggi.SystemManager
 		private void _shop_OnDataChanged()
 		{
 			_saveSystem.SaveShopData(_shop.Data);
-
-			UpdateActorPresentation();
+			_actor.Data = _database.GetActorsData()[_shop.Data.CurrentSelectedActorIndex];
 		}
 
 		private void SubscribeEvents()
