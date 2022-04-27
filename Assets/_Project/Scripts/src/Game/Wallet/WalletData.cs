@@ -1,5 +1,8 @@
-[System.Serializable]
-public struct WalletData
+namespace Froggi.Game
 {
-    public int Amount { get; set; }
+    [System.Serializable]
+    public struct WalletData
+    {
+        public int Amount { get; set; }
+    }
 }

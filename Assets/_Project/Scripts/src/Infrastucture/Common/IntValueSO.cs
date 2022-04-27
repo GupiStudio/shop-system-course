@@ -1,7 +1,10 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "NewIntegerValue", menuName = "Integer Value")]
-public class IntValueSO : ScriptableObject
+namespace Froggi.Infrastructure
 {
-    public int Value  = 0;
+    [CreateAssetMenu(fileName = "NewIntegerValue", menuName = "Integer Value")]
+    public class IntValueSO : ScriptableObject
+    {
+        public int Value = 0;
+    }
 }

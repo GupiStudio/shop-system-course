@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Froggi.Game;
 using UnityEngine;
 
 namespace Froggi.Infrastructure

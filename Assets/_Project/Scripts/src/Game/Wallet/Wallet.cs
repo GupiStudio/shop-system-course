@@ -1,19 +1,22 @@
 using System;
 using UnityEngine;
 
-public class Wallet : MonoBehaviour
+namespace Froggi.Game
 {
-	public event Action OnDataChanged;
-
-	private WalletData _walletData;
-
-	public WalletData Data
+	public class Wallet : MonoBehaviour
 	{
-		get => _walletData;
-		set
+		public event Action OnDataChanged;
+
+		private WalletData _walletData;
+
+		public WalletData Data
 		{
-			_walletData = value;
-			OnDataChanged?.Invoke();
+			get => _walletData;
+			set
+			{
+				_walletData = value;
+				OnDataChanged?.Invoke();
+			}
 		}
 	}
 }

@@ -1,13 +1,14 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class GameUI : MonoBehaviour
+namespace Froggi.Presentation
 {
-    [SerializeField] private WalletUI _wallet;
-
-    public void UpdateWallet(int amount)
+    public class GameUI : MonoBehaviour
     {
-        _wallet.Amount = amount;
+        [SerializeField] private WalletUI _wallet;
+
+        public void UpdateWallet(int amount)
+        {
+            _wallet.Amount = amount;
+        }
     }
 }

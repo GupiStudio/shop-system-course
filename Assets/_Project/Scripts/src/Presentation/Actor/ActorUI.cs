@@ -2,29 +2,32 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ActorUI : MonoBehaviour, IActorUI
+namespace Froggi.Presentation
 {
-    [SerializeField] private Image _imageHolder;
-
-    [SerializeField] private TMP_Text _nameHolder;
-
-    public Sprite Graphic
+    public class ActorUI : MonoBehaviour, IActorUI
     {
-        get => _imageHolder ? _imageHolder.sprite : null;
-        set
+        [SerializeField] private Image _imageHolder;
+
+        [SerializeField] private TMP_Text _nameHolder;
+
+        public Sprite Graphic
         {
-            if (_imageHolder)
-                _imageHolder.sprite = value;
+            get => _imageHolder ? _imageHolder.sprite : null;
+            set
+            {
+                if (_imageHolder)
+                    _imageHolder.sprite = value;
+            }
         }
-    }
 
-    public string Name
-    {
-        get => _nameHolder ? _nameHolder.text : string.Empty;
-        set
+        public string Name
         {
-            if (_nameHolder)
-                _nameHolder.text = value;
+            get => _nameHolder ? _nameHolder.text : string.Empty;
+            set
+            {
+                if (_nameHolder)
+                    _nameHolder.text = value;
+            }
         }
     }
 }

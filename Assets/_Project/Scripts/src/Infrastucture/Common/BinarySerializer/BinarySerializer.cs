@@ -19,265 +19,279 @@ using System.Runtime.Serialization.Formatters.Binary;
 /// GITHUB: https://github.com/wekonu
 /// </summary>
 
+namespace Froggi.Infrastructure
+{
 // AllowAllAssemblyVersionsDeserializationBinder
-public sealed class Binder : SerializationBinder
-{
-	public override Type BindToType(string assemblyName, string typeName)
+	public sealed class Binder : SerializationBinder
 	{
-		Type typeToDeserialize = null;
-
-		var currentAssembly = Assembly.GetExecutingAssembly().FullName;
-
-		// In this case we are always using the current assembly
-		assemblyName = currentAssembly;
-
-		// Get the type using the typeName and assemblyName
-		typeToDeserialize = Type.GetType($"{typeName}, {assemblyName}");
-
-		return typeToDeserialize;
-	}
-}
-
-public class BinarySerializer
-{
-	static string folderName = "GameData";
-
-	static string persistentDataPath = Application.persistentDataPath;
-	static SurrogateSelector surrogateSelector = GetSurrogateSelector ();
-
-	/// <summary>
-	/// Save data to disk.
-	/// </summary>
-	/// <param name="data">your dataClass instance.</param>
-	/// <param name="filename">the file where you want to save data.</param>
-	/// <returns></returns>
-	public static void Save <T> (T data, string filename)
-	{
-		if (!IsSerializable<T>()) return;
-
-		if (!Directory.Exists(GetDirectoryPath()))
-			Directory.CreateDirectory(GetDirectoryPath());
-
-		var formatter = new BinaryFormatter
+		public override Type BindToType(string assemblyName, string typeName)
 		{
-			Binder = new Binder(),
-			SurrogateSelector = surrogateSelector
-		};
+			Type typeToDeserialize = null;
 
-		var file = File.Create(GetFilePath(filename));
+			var currentAssembly = Assembly.GetExecutingAssembly().FullName;
 
-		formatter.Serialize(file, data);
+			// In this case we are always using the current assembly
+			assemblyName = currentAssembly;
 
-		file.Close();
-	}
+			// Get the type using the typeName and assemblyName
+			typeToDeserialize = Type.GetType($"{typeName}, {assemblyName}");
 
-	/// <summary>
-	/// Save data to disk.
-	/// </summary>
-	/// <param name="filename">the file where you saved data.</param>
-	/// <returns></returns>
-	public static T Load<T> (string filename)
-	{
-		var data = System.Activator.CreateInstance <T> ();
-
-		if (!IsSerializable<T>()) return data;
-		if (!HasSaved(filename)) return data;
-
-		var formatter = new BinaryFormatter
-		{
-			Binder = new Binder(),
-			SurrogateSelector = surrogateSelector
-		};
-
-		var file = File.Open (GetFilePath (filename), FileMode.Open);
-
-		data = (T)formatter.Deserialize (file);
-
-		file.Close ();
-
-		return data;
-	}
-
-	static bool IsSerializable<T> ()
-	{
-		var isSerializable = typeof(T).IsSerializable;
-		if (isSerializable) return isSerializable;
-
-		var type = typeof(T).ToString();
-		Debug.LogError (
-			"Class <b><color=white>" + type + "</color></b> is not marked as Serializable, "
-			+ "make sure to add <b><color=white>[System.Serializable]</color></b> at the top of your " + type + " class."
-		);
-
-		return isSerializable;
-	}
-
-
-	/// <summary>
-	/// Check if data is saved.
-	/// </summary>
-	/// <param name="filename">the file where you saved data</param>
-	/// <returns></returns>
-	public static bool HasSaved (string filename)
-	{
-		return File.Exists (GetFilePath (filename));
-	}
-
-	static string GetDirectoryPath ()
-	{
-		return persistentDataPath + "/" + folderName;
-	}
-
-	static string GetFilePath (string filename)
-	{
-		return  GetDirectoryPath () + "/" + filename;
-	}
-
-
-	//Other non-serialized types /// SS: Serialization Surrogate
-	//Vector2 , Vector3 , Vector4 , Color , Quaternion.
-
-	static SurrogateSelector GetSurrogateSelector ()
-	{
-		SurrogateSelector surrogateSelector = new SurrogateSelector ();
-
-		Vector2_SS v2_ss = new Vector2_SS ();
-		Vector3_SS v3_ss = new Vector3_SS ();
-		Vector4_SS v4_ss = new Vector4_SS ();
-		Color_SS co_ss = new Color_SS ();
-		Quaternion_SS qu_ss = new Quaternion_SS ();
-
-		surrogateSelector.AddSurrogate (typeof(Vector2), new StreamingContext (StreamingContextStates.All), v2_ss);
-		surrogateSelector.AddSurrogate (typeof(Vector3), new StreamingContext (StreamingContextStates.All), v3_ss);
-		surrogateSelector.AddSurrogate (typeof(Vector4), new StreamingContext (StreamingContextStates.All), v4_ss);
-		surrogateSelector.AddSurrogate (typeof(Color), new StreamingContext (StreamingContextStates.All), co_ss);
-		surrogateSelector.AddSurrogate (typeof(Quaternion), new StreamingContext (StreamingContextStates.All), qu_ss);
-
-		return surrogateSelector;
-	}
-
-	class Vector2_SS: ISerializationSurrogate
-	{
-		//Serialize Vector2
-		public void GetObjectData (System.Object obj, SerializationInfo info, StreamingContext context)
-		{
-			Vector2 v2 = (Vector2)obj;
-			info.AddValue ("x", v2.x);
-			info.AddValue ("y", v2.y);
-		}
-		//Deserialize Vector2
-		public System.Object SetObjectData (System.Object obj, SerializationInfo info, StreamingContext context, ISurrogateSelector selector)
-		{
-			Vector2 v2 = (Vector2)obj;
-
-			v2.x = (float)info.GetValue ("x", typeof(float));
-			v2.y = (float)info.GetValue ("y", typeof(float));
-
-			obj = v2;
-			return obj;
+			return typeToDeserialize;
 		}
 	}
 
-	class Vector3_SS: ISerializationSurrogate
+	public class BinarySerializer
 	{
-		//Serialize Vector3
-		public void GetObjectData (System.Object obj, SerializationInfo info, StreamingContext context)
+		static string folderName = "GameData";
+
+		static string persistentDataPath = Application.persistentDataPath;
+		static SurrogateSelector surrogateSelector = GetSurrogateSelector();
+
+		/// <summary>
+		/// Save data to disk.
+		/// </summary>
+		/// <param name="data">your dataClass instance.</param>
+		/// <param name="filename">the file where you want to save data.</param>
+		/// <returns></returns>
+		public static void Save<T>(T data, string filename)
 		{
-			Vector3 v3 = (Vector3)obj;
-			info.AddValue ("x", v3.x);
-			info.AddValue ("y", v3.y);
-			info.AddValue ("z", v3.z);
-		}
-		//Deserialize Vector3
-		public System.Object SetObjectData (System.Object obj, SerializationInfo info, StreamingContext context, ISurrogateSelector selector)
-		{
-			Vector3 v3 = (Vector3)obj;
+			if (!IsSerializable<T>()) return;
 
-			v3.x = (float)info.GetValue ("x", typeof(float));
-			v3.y = (float)info.GetValue ("y", typeof(float));
-			v3.z = (float)info.GetValue ("z", typeof(float));
+			if (!Directory.Exists(GetDirectoryPath()))
+				Directory.CreateDirectory(GetDirectoryPath());
 
-			obj = v3;
-			return obj;
-		}
-	}
+			var formatter = new BinaryFormatter
+			{
+				Binder = new Binder(),
+				SurrogateSelector = surrogateSelector
+			};
 
-	class Vector4_SS: ISerializationSurrogate
-	{
-		//Serialize Vector4
-		public void GetObjectData (System.Object obj, SerializationInfo info, StreamingContext context)
-		{
-			Vector4 v4 = (Vector4)obj;
-			info.AddValue ("x", v4.x);
-			info.AddValue ("y", v4.y);
-			info.AddValue ("z", v4.z);
-			info.AddValue ("w", v4.w);
-		}
-		//Deserialize Vector4
-		public System.Object SetObjectData (System.Object obj, SerializationInfo info, StreamingContext context, ISurrogateSelector selector)
-		{
-			Vector4 v4 = (Vector4)obj;
+			var file = File.Create(GetFilePath(filename));
 
-			v4.x = (float)info.GetValue ("x", typeof(float));
-			v4.y = (float)info.GetValue ("y", typeof(float));
-			v4.z = (float)info.GetValue ("z", typeof(float));
-			v4.w = (float)info.GetValue ("w", typeof(float));
+			formatter.Serialize(file, data);
 
-			obj = v4;
-			return obj;
+			file.Close();
 		}
 
-	}
-
-	class Color_SS: ISerializationSurrogate
-	{
-		//Serialize Color
-		public void GetObjectData (System.Object obj, SerializationInfo info, StreamingContext context)
+		/// <summary>
+		/// Save data to disk.
+		/// </summary>
+		/// <param name="filename">the file where you saved data.</param>
+		/// <returns></returns>
+		public static T Load<T>(string filename)
 		{
-			Color color = (Color)obj;
-			info.AddValue ("r", color.r);
-			info.AddValue ("g", color.g);
-			info.AddValue ("b", color.b);
-			info.AddValue ("a", color.a);
+			var data = System.Activator.CreateInstance<T>();
+
+			if (!IsSerializable<T>()) return data;
+			if (!HasSaved(filename)) return data;
+
+			var formatter = new BinaryFormatter
+			{
+				Binder = new Binder(),
+				SurrogateSelector = surrogateSelector
+			};
+
+			var file = File.Open(GetFilePath(filename), FileMode.Open);
+
+			data = (T) formatter.Deserialize(file);
+
+			file.Close();
+
+			return data;
 		}
-		//Deserialize Color
-		public System.Object SetObjectData (System.Object obj, SerializationInfo info, StreamingContext context, ISurrogateSelector selector)
+
+		static bool IsSerializable<T>()
 		{
-			Color color = (Color)obj;
+			var isSerializable = typeof(T).IsSerializable;
+			if (isSerializable) return isSerializable;
 
-			color.r = (float)info.GetValue ("r", typeof(float));
-			color.g = (float)info.GetValue ("g", typeof(float));
-			color.b = (float)info.GetValue ("b", typeof(float));
-			color.a = (float)info.GetValue ("a", typeof(float));
+			var type = typeof(T).ToString();
+			Debug.LogError(
+				"Class <b><color=white>" + type + "</color></b> is not marked as Serializable, "
+				+ "make sure to add <b><color=white>[System.Serializable]</color></b> at the top of your " + type +
+				" class."
+			);
 
-			obj = color;
-			return obj;
+			return isSerializable;
 		}
-	}
 
-	class Quaternion_SS: ISerializationSurrogate
-	{
-		//Serialize Quaternion
-		public void GetObjectData (System.Object obj, SerializationInfo info, StreamingContext context)
+
+		/// <summary>
+		/// Check if data is saved.
+		/// </summary>
+		/// <param name="filename">the file where you saved data</param>
+		/// <returns></returns>
+		public static bool HasSaved(string filename)
 		{
-			Quaternion qua = (Quaternion)obj;
-			info.AddValue ("x", qua.x);
-			info.AddValue ("y", qua.y);
-			info.AddValue ("z", qua.z);
-			info.AddValue ("w", qua.w);
+			return File.Exists(GetFilePath(filename));
 		}
-		//Deserialize Quaternion
-		public System.Object SetObjectData (System.Object obj, SerializationInfo info, StreamingContext context, ISurrogateSelector selector)
+
+		static string GetDirectoryPath()
 		{
-			Quaternion qua = (Quaternion)obj;
+			return persistentDataPath + "/" + folderName;
+		}
 
-			qua.x = (float)info.GetValue ("x", typeof(float));
-			qua.y = (float)info.GetValue ("y", typeof(float));
-			qua.z = (float)info.GetValue ("z", typeof(float));
-			qua.w = (float)info.GetValue ("w", typeof(float));
+		static string GetFilePath(string filename)
+		{
+			return GetDirectoryPath() + "/" + filename;
+		}
 
-			obj = qua;
-			return obj;
+
+		//Other non-serialized types /// SS: Serialization Surrogate
+		//Vector2 , Vector3 , Vector4 , Color , Quaternion.
+
+		static SurrogateSelector GetSurrogateSelector()
+		{
+			SurrogateSelector surrogateSelector = new SurrogateSelector();
+
+			Vector2_SS v2_ss = new Vector2_SS();
+			Vector3_SS v3_ss = new Vector3_SS();
+			Vector4_SS v4_ss = new Vector4_SS();
+			Color_SS co_ss = new Color_SS();
+			Quaternion_SS qu_ss = new Quaternion_SS();
+
+			surrogateSelector.AddSurrogate(typeof(Vector2), new StreamingContext(StreamingContextStates.All), v2_ss);
+			surrogateSelector.AddSurrogate(typeof(Vector3), new StreamingContext(StreamingContextStates.All), v3_ss);
+			surrogateSelector.AddSurrogate(typeof(Vector4), new StreamingContext(StreamingContextStates.All), v4_ss);
+			surrogateSelector.AddSurrogate(typeof(Color), new StreamingContext(StreamingContextStates.All), co_ss);
+			surrogateSelector.AddSurrogate(typeof(Quaternion), new StreamingContext(StreamingContextStates.All), qu_ss);
+
+			return surrogateSelector;
+		}
+
+		class Vector2_SS : ISerializationSurrogate
+		{
+			//Serialize Vector2
+			public void GetObjectData(System.Object obj, SerializationInfo info, StreamingContext context)
+			{
+				Vector2 v2 = (Vector2) obj;
+				info.AddValue("x", v2.x);
+				info.AddValue("y", v2.y);
+			}
+
+			//Deserialize Vector2
+			public System.Object SetObjectData(System.Object obj, SerializationInfo info, StreamingContext context,
+				ISurrogateSelector selector)
+			{
+				Vector2 v2 = (Vector2) obj;
+
+				v2.x = (float) info.GetValue("x", typeof(float));
+				v2.y = (float) info.GetValue("y", typeof(float));
+
+				obj = v2;
+				return obj;
+			}
+		}
+
+		class Vector3_SS : ISerializationSurrogate
+		{
+			//Serialize Vector3
+			public void GetObjectData(System.Object obj, SerializationInfo info, StreamingContext context)
+			{
+				Vector3 v3 = (Vector3) obj;
+				info.AddValue("x", v3.x);
+				info.AddValue("y", v3.y);
+				info.AddValue("z", v3.z);
+			}
+
+			//Deserialize Vector3
+			public System.Object SetObjectData(System.Object obj, SerializationInfo info, StreamingContext context,
+				ISurrogateSelector selector)
+			{
+				Vector3 v3 = (Vector3) obj;
+
+				v3.x = (float) info.GetValue("x", typeof(float));
+				v3.y = (float) info.GetValue("y", typeof(float));
+				v3.z = (float) info.GetValue("z", typeof(float));
+
+				obj = v3;
+				return obj;
+			}
+		}
+
+		class Vector4_SS : ISerializationSurrogate
+		{
+			//Serialize Vector4
+			public void GetObjectData(System.Object obj, SerializationInfo info, StreamingContext context)
+			{
+				Vector4 v4 = (Vector4) obj;
+				info.AddValue("x", v4.x);
+				info.AddValue("y", v4.y);
+				info.AddValue("z", v4.z);
+				info.AddValue("w", v4.w);
+			}
+
+			//Deserialize Vector4
+			public System.Object SetObjectData(System.Object obj, SerializationInfo info, StreamingContext context,
+				ISurrogateSelector selector)
+			{
+				Vector4 v4 = (Vector4) obj;
+
+				v4.x = (float) info.GetValue("x", typeof(float));
+				v4.y = (float) info.GetValue("y", typeof(float));
+				v4.z = (float) info.GetValue("z", typeof(float));
+				v4.w = (float) info.GetValue("w", typeof(float));
+
+				obj = v4;
+				return obj;
+			}
+
+		}
+
+		class Color_SS : ISerializationSurrogate
+		{
+			//Serialize Color
+			public void GetObjectData(System.Object obj, SerializationInfo info, StreamingContext context)
+			{
+				Color color = (Color) obj;
+				info.AddValue("r", color.r);
+				info.AddValue("g", color.g);
+				info.AddValue("b", color.b);
+				info.AddValue("a", color.a);
+			}
+
+			//Deserialize Color
+			public System.Object SetObjectData(System.Object obj, SerializationInfo info, StreamingContext context,
+				ISurrogateSelector selector)
+			{
+				Color color = (Color) obj;
+
+				color.r = (float) info.GetValue("r", typeof(float));
+				color.g = (float) info.GetValue("g", typeof(float));
+				color.b = (float) info.GetValue("b", typeof(float));
+				color.a = (float) info.GetValue("a", typeof(float));
+
+				obj = color;
+				return obj;
+			}
+		}
+
+		class Quaternion_SS : ISerializationSurrogate
+		{
+			//Serialize Quaternion
+			public void GetObjectData(System.Object obj, SerializationInfo info, StreamingContext context)
+			{
+				Quaternion qua = (Quaternion) obj;
+				info.AddValue("x", qua.x);
+				info.AddValue("y", qua.y);
+				info.AddValue("z", qua.z);
+				info.AddValue("w", qua.w);
+			}
+
+			//Deserialize Quaternion
+			public System.Object SetObjectData(System.Object obj, SerializationInfo info, StreamingContext context,
+				ISurrogateSelector selector)
+			{
+				Quaternion qua = (Quaternion) obj;
+
+				qua.x = (float) info.GetValue("x", typeof(float));
+				qua.y = (float) info.GetValue("y", typeof(float));
+				qua.z = (float) info.GetValue("z", typeof(float));
+				qua.w = (float) info.GetValue("w", typeof(float));
+
+				obj = qua;
+				return obj;
+			}
 		}
 	}
 }

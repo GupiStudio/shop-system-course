@@ -1,5 +1,5 @@
 {
-    "name": "GameSystem",
+    "name": "SystemManager",
     "rootNamespace": "",
     "references": [
         "GUID:50790f9f8ca6fb94f9a0910b1949fa4d",

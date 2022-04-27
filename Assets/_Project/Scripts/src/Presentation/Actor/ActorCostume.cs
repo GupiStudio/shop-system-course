@@ -1,31 +1,32 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class ActorCostume : MonoBehaviour, IActorUI
+namespace Froggi.Presentation
 {
-    [SerializeField] private SpriteRenderer _spriteRenderer;
-
-    [SerializeField] private TMP_Text _nameHolder;
-
-    public Sprite Graphic
+    public class ActorCostume : MonoBehaviour, IActorUI
     {
-        get => _spriteRenderer ? _spriteRenderer.sprite : null;
-        set
+        [SerializeField] private SpriteRenderer _spriteRenderer;
+
+        [SerializeField] private TMP_Text _nameHolder;
+
+        public Sprite Graphic
         {
-            if (_spriteRenderer)
-                _spriteRenderer.sprite = value;
+            get => _spriteRenderer ? _spriteRenderer.sprite : null;
+            set
+            {
+                if (_spriteRenderer)
+                    _spriteRenderer.sprite = value;
+            }
         }
-    }
 
-    public string Name
-    {
-        get => _nameHolder ? _nameHolder.text : string.Empty;
-        set
+        public string Name
         {
-            if (_nameHolder)
-                _nameHolder.text = value;
+            get => _nameHolder ? _nameHolder.text : string.Empty;
+            set
+            {
+                if (_nameHolder)
+                    _nameHolder.text = value;
+            }
         }
     }
 }

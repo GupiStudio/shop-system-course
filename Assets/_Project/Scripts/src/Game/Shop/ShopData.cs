@@ -1,8 +1,11 @@
 using System.Collections.Generic;
 
-[System.Serializable]
-public class ShopData
+namespace Froggi.Game
 {
-    public int CurrentSelectedActorIndex { get; set; }
-    public List<int> PurchasedActorIndexes { get; set; }
+    [System.Serializable]
+    public class ShopData
+    {
+        public int CurrentSelectedActorIndex { get; set; }
+        public List<int> PurchasedActorIndexes { get; set; }
+    }
 }

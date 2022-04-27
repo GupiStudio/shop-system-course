@@ -1,7 +1,10 @@
 using UnityEngine;
 
-public interface IActorUI
+namespace Froggi.Presentation
 {
-    Sprite Graphic { get; set; }
-    string Name { get; set; }
+    public interface IActorUI
+    {
+        Sprite Graphic { get; set; }
+        string Name { get; set; }
+    }
 }

@@ -1,11 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+using Froggi.Game;
 
-public interface ISaveSystem
+namespace Froggi.Infrastructure
 {
-    void SaveShopData(ShopData shopData);
-    void SaveWalletData(WalletData walletData);
-    ShopData GetShopData();
-    WalletData GetWalletData();
+    public interface ISaveSystem
+    {
+        void SaveShopData(ShopData shopData);
+        void SaveWalletData(WalletData walletData);
+        ShopData GetShopData();
+        WalletData GetWalletData();
+    }
 }

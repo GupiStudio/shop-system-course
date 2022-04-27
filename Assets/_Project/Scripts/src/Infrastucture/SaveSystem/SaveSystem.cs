@@ -1,29 +1,31 @@
-using System.Collections;
-using System.Collections.Generic;
+using Froggi.Game;
 using UnityEngine;
 
-public class SaveSystem : MonoBehaviour, ISaveSystem
+namespace Froggi.Infrastructure
 {
-    private const string WalletFile = "wallet-data.txt";
-    private const string ShopFile = "shop-data.txt";
-
-	public ShopData GetShopData()
+	public class SaveSystem : MonoBehaviour, ISaveSystem
 	{
-		return BinarySerializer.Load<ShopData>(ShopFile);
-	}
+		private const string WalletFile = "wallet-data.txt";
+		private const string ShopFile = "shop-data.txt";
 
-	public WalletData GetWalletData()
-	{
-		return BinarySerializer.Load<WalletData>(WalletFile);
-	}
+		public ShopData GetShopData()
+		{
+			return BinarySerializer.Load<ShopData>(ShopFile);
+		}
 
-	public void SaveShopData(ShopData shopData)
-	{
-		BinarySerializer.Save<ShopData>(shopData, ShopFile);
-	}
+		public WalletData GetWalletData()
+		{
+			return BinarySerializer.Load<WalletData>(WalletFile);
+		}
 
-	public void SaveWalletData(WalletData walletData)
-	{
-		BinarySerializer.Save<WalletData>(walletData, WalletFile);
+		public void SaveShopData(ShopData shopData)
+		{
+			BinarySerializer.Save<ShopData>(shopData, ShopFile);
+		}
+
+		public void SaveWalletData(WalletData walletData)
+		{
+			BinarySerializer.Save<WalletData>(walletData, WalletFile);
+		}
 	}
 }

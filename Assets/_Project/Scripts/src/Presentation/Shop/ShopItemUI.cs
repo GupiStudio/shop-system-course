@@ -2,122 +2,124 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using DG.Tweening;
-using System;
+using Froggi.Game;
 using UnityEngine.Events;
 
-public class ShopItemUI : MonoBehaviour
+namespace Froggi.Presentation
 {
-	[SerializeField] private Color _itemNotSelected;
-
-	[SerializeField] private Color _itemSelected;
-
-	[Space(20f)]
-	[SerializeField] private Image _image;
-
-	[SerializeField] private TMP_Text _name;
-
-	[SerializeField] private Image _speed;
-
-	[SerializeField] private Image _power;
-
-	[SerializeField] private TMP_Text _price;
-
-	[SerializeField] private Button _purchase;
-
-	[Space(20f)]
-	[SerializeField] private Button _itemButton;
-
-	[SerializeField] private Image _itemImage;
-
-	[SerializeField] private Outline _itemOutline;
-
-	private ActorData _actorData;
-
-	public void Initialize(int itemIndex, Sprite avatar, ActorData actorData, UnityAction<int> onSelect = null, UnityAction<int> onPurchase = null)
+	public class ShopItemUI : MonoBehaviour
 	{
-		_purchase.onClick.RemoveAllListeners();
-		_purchase.onClick.AddListener(() => onPurchase?.Invoke(itemIndex));
+		[SerializeField] private Color _itemNotSelected;
 
-		_itemButton.onClick.RemoveAllListeners();
-		_itemButton.onClick.AddListener(() => onSelect?.Invoke(itemIndex));
+		[SerializeField] private Color _itemSelected;
 
-		SetSprite(avatar);
-		ActorData = actorData;
-	}
+		[Space(20f)] [SerializeField] private Image _image;
 
-	public ActorData ActorData
-	{
-		get => _actorData;
-		set
+		[SerializeField] private TMP_Text _name;
+
+		[SerializeField] private Image _speed;
+
+		[SerializeField] private Image _power;
+
+		[SerializeField] private TMP_Text _price;
+
+		[SerializeField] private Button _purchase;
+
+		[Space(20f)] [SerializeField] private Button _itemButton;
+
+		[SerializeField] private Image _itemImage;
+
+		[SerializeField] private Outline _itemOutline;
+
+		private ActorData _actorData;
+
+		public void Initialize(int itemIndex, Sprite avatar, ActorData actorData, UnityAction<int> onSelect = null,
+			UnityAction<int> onPurchase = null)
 		{
-			_actorData = value;
+			_purchase.onClick.RemoveAllListeners();
+			_purchase.onClick.AddListener(() => onPurchase?.Invoke(itemIndex));
 
-			SetName(_actorData.Name);
-			SetSpeed(_actorData.Speed);
-			SetPower(_actorData.Power);
-			SetPrice(_actorData.Price);
+			_itemButton.onClick.RemoveAllListeners();
+			_itemButton.onClick.AddListener(() => onSelect?.Invoke(itemIndex));
 
-			if (_actorData.IsPurchased)
-				SetAsPurchased();
+			SetSprite(avatar);
+			ActorData = actorData;
 		}
-	}
 
-	public void SetPosition(Vector2 pos)
-	{
-		GetComponent<RectTransform>().anchoredPosition += pos;
-	}
+		public ActorData ActorData
+		{
+			get => _actorData;
+			set
+			{
+				_actorData = value;
 
-	public void SetSprite(Sprite sprite)
-	{
-		_image.sprite = sprite;
-	}
+				SetName(_actorData.Name);
+				SetSpeed(_actorData.Speed);
+				SetPower(_actorData.Power);
+				SetPrice(_actorData.Price);
 
-	private void SetName(string name)
-	{
-		_name.text = name;
-	}
+				if (_actorData.IsPurchased)
+					SetAsPurchased();
+			}
+		}
 
-	private void SetSpeed(int value)
-	{
-		_speed.fillAmount = value / 100f;
-	}
+		public void SetPosition(Vector2 pos)
+		{
+			GetComponent<RectTransform>().anchoredPosition += pos;
+		}
 
-	private void SetPower(int value)
-	{
-		_power.fillAmount = value / 100f;
-	}
+		public void SetSprite(Sprite sprite)
+		{
+			_image.sprite = sprite;
+		}
 
-	private void SetPrice(int value)
-	{
-		_price.text = value.ToString();
-	}
+		private void SetName(string name)
+		{
+			_name.text = name;
+		}
 
-	private void SetAsPurchased()
-	{
-		_purchase.gameObject.SetActive(false);
-		_itemButton.interactable = true;
+		private void SetSpeed(int value)
+		{
+			_speed.fillAmount = value / 100f;
+		}
 
-		_itemImage.color = _itemNotSelected;
-	}
+		private void SetPower(int value)
+		{
+			_power.fillAmount = value / 100f;
+		}
 
-	public void SelectItem()
-	{
-		_itemOutline.enabled = true;
-		_itemImage.color = _itemSelected;
-		_itemButton.interactable = false;
-	}
+		private void SetPrice(int value)
+		{
+			_price.text = value.ToString();
+		}
 
-	public void DeselectItem()
-	{
-		_itemOutline.enabled = false;
-		_itemImage.color = _itemNotSelected;
-		_itemButton.interactable = true;
-	}
+		private void SetAsPurchased()
+		{
+			_purchase.gameObject.SetActive(false);
+			_itemButton.interactable = true;
 
-	public void PlayItemShakeAnimation()
-	{
-		transform.DOComplete();
+			_itemImage.color = _itemNotSelected;
+		}
 
-		transform.DOShakePosition(1f, new Vector3(8f, 0f, 0f)).SetEase(Ease.Linear);
+		public void SelectItem()
+		{
+			_itemOutline.enabled = true;
+			_itemImage.color = _itemSelected;
+			_itemButton.interactable = false;
+		}
+
+		public void DeselectItem()
+		{
+			_itemOutline.enabled = false;
+			_itemImage.color = _itemNotSelected;
+			_itemButton.interactable = true;
+		}
+
+		public void PlayItemShakeAnimation()
+		{
+			transform.DOComplete();
+
+			transform.DOShakePosition(1f, new Vector3(8f, 0f, 0f)).SetEase(Ease.Linear);
+		}
 	}
 }

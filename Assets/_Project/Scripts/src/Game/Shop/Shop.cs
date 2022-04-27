@@ -2,40 +2,43 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Shop : MonoBehaviour
+namespace Froggi.Game
 {
-    public event Action OnDataChanged;
-    public event Action OnActorPurchase;
-    public event Action OnActorSelect;
-
-    private ShopData _shopData;
-
-    public ShopData Data
+    public class Shop : MonoBehaviour
     {
-        get => _shopData;
-        set
+        public event Action OnDataChanged;
+        public event Action OnActorPurchase;
+        public event Action OnActorSelect;
+
+        private ShopData _shopData;
+
+        public ShopData Data
         {
-            _shopData = value;
-            OnDataChanged?.Invoke();
+            get => _shopData;
+            set
+            {
+                _shopData = value;
+                OnDataChanged?.Invoke();
+            }
         }
-    }
 
-    public void Purchase(int id)
-    {
-        var data = Data;
-        data.PurchasedActorIndexes ??= new List<int>();
-        data.PurchasedActorIndexes.Add(id);
-        Data = data;
+        public void Purchase(int id)
+        {
+            var data = Data;
+            data.PurchasedActorIndexes ??= new List<int>();
+            data.PurchasedActorIndexes.Add(id);
+            Data = data;
 
-        OnActorPurchase?.Invoke();
-    }
+            OnActorPurchase?.Invoke();
+        }
 
-    public void Select(int id)
-    {
-        var data = Data;
-        data.CurrentSelectedActorIndex = id;
-        Data = data;
+        public void Select(int id)
+        {
+            var data = Data;
+            data.CurrentSelectedActorIndex = id;
+            Data = data;
 
-        OnActorSelect?.Invoke();
+            OnActorSelect?.Invoke();
+        }
     }
 }
