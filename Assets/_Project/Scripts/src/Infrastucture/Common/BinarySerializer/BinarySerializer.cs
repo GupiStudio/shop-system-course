@@ -1,19 +1,42 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using System.IO;
+using System.Reflection;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 
 /// <summary>
 /// BinarySerializer is tool to save your game data in files as binary
-/// so that no body can read it or modify it, 
+/// so that no body can read it or modify it,
 /// this tool is generic.
-/// 
-/// Allowed types : int, float , strings, ...(all .Net types)  
+///
+/// Allowed types : int, float , strings, ...(all .Net types)
 /// But for unity types it accepts only 5 types: Vector2, Vector3, Vector4, Color, Quaternion.
-/// 
+///
 /// Developed by Hamza Herbou
 /// GITHUB : https://github.com/herbou
+/// Modded to support AssemblyDefinition by Wekonu
+/// GITHUB: https://github.com/wekonu
 /// </summary>
+
+// AllowAllAssemblyVersionsDeserializationBinder
+public sealed class Binder : SerializationBinder
+{
+	public override Type BindToType(string assemblyName, string typeName)
+	{
+		Type typeToDeserialize = null;
+
+		var currentAssembly = Assembly.GetExecutingAssembly().FullName;
+
+		// In this case we are always using the current assembly
+		assemblyName = currentAssembly;
+
+		// Get the type using the typeName and assemblyName
+		typeToDeserialize = Type.GetType($"{typeName}, {assemblyName}");
+
+		return typeToDeserialize;
+	}
+}
 
 public class BinarySerializer
 {
@@ -30,20 +53,22 @@ public class BinarySerializer
 	/// <returns></returns>
 	public static void Save <T> (T data, string filename)
 	{
-		if (IsSerializable <T> ()) {
-			if (!Directory.Exists (GetDirectoryPath ()))
-				Directory.CreateDirectory (GetDirectoryPath ());
+		if (!IsSerializable<T>()) return;
 
-			BinaryFormatter formatter = new BinaryFormatter ();
+		if (!Directory.Exists(GetDirectoryPath()))
+			Directory.CreateDirectory(GetDirectoryPath());
 
-			formatter.SurrogateSelector = surrogateSelector;
+		var formatter = new BinaryFormatter
+		{
+			Binder = new Binder(),
+			SurrogateSelector = surrogateSelector
+		};
 
-			FileStream file = File.Create (GetFilePath (filename));
+		var file = File.Create(GetFilePath(filename));
 
-			formatter.Serialize (file, data);
+		formatter.Serialize(file, data);
 
-			file.Close ();
-		}
+		file.Close();
 	}
 
 	/// <summary>
@@ -53,36 +78,36 @@ public class BinarySerializer
 	/// <returns></returns>
 	public static T Load<T> (string filename)
 	{
-		T data = System.Activator.CreateInstance <T> ();
+		var data = System.Activator.CreateInstance <T> ();
 
-		if (IsSerializable <T> ()) {
-			if (HasSaved (filename)) {
-				
-				BinaryFormatter formatter = new BinaryFormatter ();
+		if (!IsSerializable<T>()) return data;
+		if (!HasSaved(filename)) return data;
 
-				formatter.SurrogateSelector = surrogateSelector;
+		var formatter = new BinaryFormatter
+		{
+			Binder = new Binder(),
+			SurrogateSelector = surrogateSelector
+		};
 
-				FileStream file = File.Open (GetFilePath (filename), FileMode.Open);
+		var file = File.Open (GetFilePath (filename), FileMode.Open);
 
-				data = (T)formatter.Deserialize (file);
+		data = (T)formatter.Deserialize (file);
 
-				file.Close ();
-			}
-		}
+		file.Close ();
 
 		return data;
 	}
 
 	static bool IsSerializable<T> ()
 	{
-		bool isSerializable = typeof(T).IsSerializable;
-		if (!isSerializable) {
-			string type = typeof(T).ToString ();
-			Debug.LogError (
-				"Class <b><color=white>" + type + "</color></b> is not marked as Serializable, "
-				+ "make sure to add <b><color=white>[System.Serializable]</color></b> at the top of your " + type + " class."
-			);
-		}
+		var isSerializable = typeof(T).IsSerializable;
+		if (isSerializable) return isSerializable;
+
+		var type = typeof(T).ToString();
+		Debug.LogError (
+			"Class <b><color=white>" + type + "</color></b> is not marked as Serializable, "
+			+ "make sure to add <b><color=white>[System.Serializable]</color></b> at the top of your " + type + " class."
+		);
 
 		return isSerializable;
 	}
@@ -117,8 +142,8 @@ public class BinarySerializer
 		SurrogateSelector surrogateSelector = new SurrogateSelector ();
 
 		Vector2_SS v2_ss = new Vector2_SS ();
-		Vector3_SS v3_ss = new Vector3_SS (); 
-		Vector4_SS v4_ss = new Vector4_SS (); 
+		Vector3_SS v3_ss = new Vector3_SS ();
+		Vector4_SS v4_ss = new Vector4_SS ();
 		Color_SS co_ss = new Color_SS ();
 		Quaternion_SS qu_ss = new Quaternion_SS ();
 
@@ -256,4 +281,3 @@ public class BinarySerializer
 		}
 	}
 }
-
