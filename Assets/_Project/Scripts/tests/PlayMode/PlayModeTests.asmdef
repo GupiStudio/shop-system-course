@@ -2,18 +2,20 @@
     "name": "PlayModeTests",
     "rootNamespace": "",
     "references": [
-        "GUID:27619889b8ba8c24980f49ee34dbb44a",
-        "GUID:0acc523941302664db1f4e527237feb3",
-        "GUID:50790f9f8ca6fb94f9a0910b1949fa4d",
-        "GUID:94216ccc8d3fb7f4fa7b115e096dd0c1",
-        "GUID:bc4d9355ce0d2d5418e9dba80fca4f2d"
+        "UnityEngine.TestRunner",
+        "UnityEditor.TestRunner",
+        "Game",
+        "Presentation",
+        "SystemManager"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
-    "overrideReferences": false,
-    "precompiledReferences": [],
-    "autoReferenced": true,
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "nunit.framework.dll"
+    ],
+    "autoReferenced": false,
     "defineConstraints": [
         "UNITY_INCLUDE_TESTS"
     ],

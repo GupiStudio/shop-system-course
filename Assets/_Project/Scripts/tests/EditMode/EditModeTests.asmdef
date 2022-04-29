@@ -2,19 +2,21 @@
     "name": "EditModeTests",
     "rootNamespace": "",
     "references": [
-        "GUID:0acc523941302664db1f4e527237feb3",
-        "GUID:27619889b8ba8c24980f49ee34dbb44a",
-        "GUID:50790f9f8ca6fb94f9a0910b1949fa4d",
-        "GUID:8ce6cf7ec8ef8e940a8a612ed8b9f39f"
+        "UnityEditor.TestRunner",
+        "UnityEngine.TestRunner",
+        "Game",
+        "Infrastructure"
     ],
     "includePlatforms": [
         "Editor"
     ],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
-    "overrideReferences": false,
-    "precompiledReferences": [],
-    "autoReferenced": true,
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "nunit.framework.dll"
+    ],
+    "autoReferenced": false,
     "defineConstraints": [
         "UNITY_INCLUDE_TESTS"
     ],
