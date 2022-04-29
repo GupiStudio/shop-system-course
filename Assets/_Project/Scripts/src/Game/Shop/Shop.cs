@@ -1,10 +1,9 @@
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace Froggi.Game
 {
-    public class Shop : MonoBehaviour
+    public class Shop
     {
         public event Action OnDataChanged;
         public event Action OnActorPurchase;

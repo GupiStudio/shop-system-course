@@ -1,9 +1,8 @@
 using Froggi.Game;
-using UnityEngine;
 
 namespace Froggi.Infrastructure
 {
-	public class SaveSystem : MonoBehaviour, ISaveSystem
+	public class SaveSystem : ISaveSystem
 	{
 		private const string WalletFile = "wallet-data.txt";
 		private const string ShopFile = "shop-data.txt";

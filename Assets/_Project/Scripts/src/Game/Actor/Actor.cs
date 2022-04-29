@@ -12,10 +12,15 @@ namespace Froggi.Game
 
         public event Action OnCollisionExit;
 
-        [Header("Mechanic")] [SerializeField] private ActorMovementController _movementController;
+        [Header("Mechanic - Movement")]
+        [SerializeField] private ActorMovementController _movementController;
 
-        [Header("Logic")] [SerializeField] private string[] _tagsToCheckWith;
-        [Space(20f)] [SerializeField] private bool _autoDestroyThis = false;
+        [Header("Logic - On Collision")]
+        [SerializeField] private string[] _tagsToCheckWith;
+
+        [Space(20f)]
+
+        [SerializeField] private bool _autoDestroyThis = false;
         [SerializeField] private bool _autoDestroyCollided = false;
 
         private int _tagsCount;
@@ -49,13 +54,6 @@ namespace Froggi.Game
 
         #endregion
 
-        public void Construct(ActorData actorData)
-        {
-            Data = actorData;
-
-            _tagsCount = _tagsToCheckWith.Length;
-        }
-
         public ActorData Data
         {
             get => _actorData;
@@ -70,6 +68,8 @@ namespace Froggi.Game
         private bool IsTagRegistered(string objectTag)
         {
             if (string.IsNullOrEmpty(objectTag)) return false;
+
+            _tagsCount = _tagsCount < 1 ? _tagsToCheckWith.Length : _tagsCount;
 
             for (var i = 0; i < _tagsCount; i++)
             {

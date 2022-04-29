@@ -1,9 +1,8 @@
 using System;
-using UnityEngine;
 
 namespace Froggi.Game
 {
-	public class Wallet : MonoBehaviour
+	public class Wallet
 	{
 		public event Action OnDataChanged;
 

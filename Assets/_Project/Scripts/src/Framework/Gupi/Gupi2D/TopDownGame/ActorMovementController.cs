@@ -10,7 +10,7 @@ namespace Gupi2D.TopDownGame
 
 		private Vector2 _movement;
 
-		public bool Moving => _movement.x != 0 || _movement.y != 0;
+		public bool Moving => _movement.x != Mathf.Epsilon || _movement.y != Mathf.Epsilon;
 
 		private void Update()
 		{

@@ -8,10 +8,7 @@ namespace Froggi.Presentation
 {
 	public class ShopUI : MonoBehaviour
 	{
-		[SerializeField] private Shop _shop;
-		[SerializeField] private Wallet _wallet;
-
-		[Space(10f)] [SerializeField] private float _itemSpacing = 0.5f;
+		[SerializeField] private float _itemSpacing = 0.5f;
 
 		[SerializeField] private Transform _shopItemsContainer;
 
@@ -26,13 +23,18 @@ namespace Froggi.Presentation
 		private List<ActorData> _actorsData;
 		private List<ShopItemUI> _shopItems;
 
+		private Shop _shop;
+		private Wallet _wallet;
+
 		private int _newSelectedItemIndex = 0;
 		private int _previousSelectedItemIndex = 0;
 
 		private float _itemHeight;
 
-		public void Construct()
+		public void Construct(Shop shop, Wallet wallet)
 		{
+			_shop = shop;
+			_wallet = wallet;
 			_purchaseFX.transform.position = _purchaseFXPos.position;
 		}
 
@@ -91,7 +93,7 @@ namespace Froggi.Presentation
 			previousItem.DeselectItem();
 			newItem.SelectItem();
 
-			_shop?.Select(index);
+			_shop.Select(index);
 		}
 
 		private ShopItemUI GetItemUI(int index)

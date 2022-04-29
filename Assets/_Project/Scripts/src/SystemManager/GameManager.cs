@@ -7,30 +7,27 @@ namespace Froggi.SystemManager
 {
 	public class GameManager : MonoBehaviour
 	{
-		[Header("Game")] [SerializeField] private Actor _actor;
-		[SerializeField] private Wallet _wallet;
-		[SerializeField] private Shop _shop;
+		[Header("Game")]
+		[SerializeField] private Actor _actor;
 
-		[Header("Infrastructure")] [SerializeReference]
-		private GameObject _databaseObject;
+		[Header("Infrastructure")]
+		[SerializeField] private Database _database;
 
-		[SerializeReference] private GameObject _saveSystemObject;
-
-		[Header("Presentation")] [SerializeField]
-		private ShopUI _shopUI;
-
+		[Header("Presentation")]
+		[SerializeField] private ShopUI _shopUI;
 		[SerializeField] private ActorUI[] _actorsUI;
 		[SerializeField] private WalletUI[] _walletsUI;
 		[SerializeField] private ActorCostume _actorCostume;
 
-		private IDatabase _database;
+		private Wallet _wallet;
+		private Shop _shop;
+
+		private IDatabase _db;
 		private ISaveSystem _saveSystem;
 
 		private void Awake()
 		{
-			_database = _databaseObject.GetComponent<IDatabase>();
-			_saveSystem = _saveSystemObject.GetComponent<ISaveSystem>();
-
+			Construct();
 			SubscribeEvents();
 			LoadGame();
 		}
@@ -64,7 +61,15 @@ namespace Froggi.SystemManager
 		private void _shop_OnDataChanged()
 		{
 			_saveSystem.SaveShopData(_shop.Data);
-			_actor.Data = _database.GetActorsData()[_shop.Data.CurrentSelectedActorIndex];
+			_actor.Data = _db.GetActorsData()[_shop.Data.CurrentSelectedActorIndex];
+		}
+
+		private void Construct()
+		{
+			_wallet = new Wallet();
+			_shop = new Shop();
+			_db = _database;
+			_saveSystem = new SaveSystem();
 		}
 
 		private void SubscribeEvents()
@@ -75,10 +80,10 @@ namespace Froggi.SystemManager
 				_actor.OnDataChanged += _actor_OnDataChanged;
 			}
 
-			if (_wallet)
+			if (_wallet != null)
 				_wallet.OnDataChanged += _wallet_OnDataChanged;
 
-			if (_shop)
+			if (_shop != null)
 				_shop.OnDataChanged += _shop_OnDataChanged;
 		}
 
@@ -90,10 +95,10 @@ namespace Froggi.SystemManager
 				_actor.OnDataChanged -= _actor_OnDataChanged;
 			}
 
-			if (_wallet)
+			if (_wallet != null)
 				_wallet.OnDataChanged -= _wallet_OnDataChanged;
 
-			if (_shop)
+			if (_shop != null)
 				_shop.OnDataChanged -= _shop_OnDataChanged;
 		}
 
@@ -101,13 +106,23 @@ namespace Froggi.SystemManager
 		{
 			_wallet.Data = _saveSystem.GetWalletData();
 			_shop.Data = _saveSystem.GetShopData();
-			_actor.Construct(_database.GetActorsData()[_shop.Data.CurrentSelectedActorIndex]);
+			_actor.Data = GetCurrentSelectedActor();
+		}
+
+		private ActorData GetCurrentSelectedActor()
+		{
+			return _db.GetActorsData()[_shop.Data.CurrentSelectedActorIndex];
+		}
+
+		private Sprite GetCurrentSelectedActorSprite()
+		{
+			return _db.GetIcons()[_shop.Data.CurrentSelectedActorIndex];
 		}
 
 		private void CollectCoin()
 		{
 			var data = _wallet.Data;
-			data.Amount += _database.GetCoinWorth();
+			data.Amount += _db.GetCoinWorth();
 
 			_wallet.Data = data;
 
@@ -117,9 +132,10 @@ namespace Froggi.SystemManager
 		private void InitializeShopPresentation()
 		{
 			var currentActorIndex = _shop.Data.CurrentSelectedActorIndex;
-			var sprites = _database.GetIcons();
-			var actorsData = _database.GetActorsData();
+			var sprites = _db.GetIcons();
+			var actorsData = _db.GetActorsData();
 			var purchasedActors = _saveSystem.GetShopData().PurchasedActorIndexes;
+
 			if (purchasedActors != null)
 			{
 				var count = purchasedActors.Count;
@@ -133,7 +149,7 @@ namespace Froggi.SystemManager
 				}
 			}
 
-			_shopUI.Construct();
+			_shopUI.Construct(_shop, _wallet);
 			_shopUI.InitializeShopItems(sprites, actorsData, currentActorIndex);
 		}
 
@@ -153,7 +169,7 @@ namespace Froggi.SystemManager
 
 		private void UpdateActorPresentation()
 		{
-			var sprite = _database.GetIcons()[_shop.Data.CurrentSelectedActorIndex];
+			var sprite = GetCurrentSelectedActorSprite();
 			var actorName = _actor.Data.Name;
 
 			var count = _actorsUI.Length;
