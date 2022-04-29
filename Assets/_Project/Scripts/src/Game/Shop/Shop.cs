@@ -13,7 +13,12 @@ namespace Froggi.Game
 
         public ShopData Data
         {
-            get => _shopData;
+            get
+            {
+                _shopData ??= new ShopData();
+                _shopData.PurchasedActorIndexes ??= new List<int>();
+                return _shopData;
+            }
             set
             {
                 _shopData = value;
@@ -23,8 +28,10 @@ namespace Froggi.Game
 
         public bool Purchase(int id)
         {
+            if (id < 0)
+                return false;
+
             var data = Data;
-            data.PurchasedActorIndexes ??= new List<int>();
 
             if (data.PurchasedActorIndexes.Contains(id))
                 return false;
@@ -33,17 +40,27 @@ namespace Froggi.Game
             Data = data;
 
             OnActorPurchase?.Invoke();
-
             return true;
         }
 
-        public void Select(int id)
+        public bool Select(int id)
         {
+            if (id < 0)
+                return false;
+
             var data = Data;
+
+            if (data.PurchasedActorIndexes.Count == 0)
+                return false;
+
+            if (!data.PurchasedActorIndexes.Contains(id))
+                return false;
+
             data.CurrentSelectedActorIndex = id;
             Data = data;
 
             OnActorSelect?.Invoke();
+            return true;
         }
     }
 }
