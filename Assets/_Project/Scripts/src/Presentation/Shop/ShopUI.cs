@@ -118,7 +118,8 @@ namespace Froggi.Presentation
 			wallet.Amount -= actor.Price;
 			_wallet.Data = wallet;
 
-			_shop.Purchase(index);
+			if (!_shop.Purchase(index))
+				return;
 
 			actor.IsPurchased = true;
 

@@ -21,14 +21,20 @@ namespace Froggi.Game
             }
         }
 
-        public void Purchase(int id)
+        public bool Purchase(int id)
         {
             var data = Data;
             data.PurchasedActorIndexes ??= new List<int>();
+
+            if (data.PurchasedActorIndexes.Contains(id))
+                return false;
+
             data.PurchasedActorIndexes.Add(id);
             Data = data;
 
             OnActorPurchase?.Invoke();
+
+            return true;
         }
 
         public void Select(int id)
