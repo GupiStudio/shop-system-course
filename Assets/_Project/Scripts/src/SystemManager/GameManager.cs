@@ -66,6 +66,7 @@ namespace Froggi.SystemManager
 
 		private void Construct()
 		{
+			_actor.Construct();
 			_wallet = new Wallet();
 			_shop = new Shop();
 			_db = _database;

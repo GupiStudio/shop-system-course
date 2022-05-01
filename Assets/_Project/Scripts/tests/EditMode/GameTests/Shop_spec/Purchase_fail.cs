@@ -15,15 +15,12 @@ public class Purchase_fail
     [Test]
     public void purchase_an_already_purchased_actor()
     {
-        _shop.Purchase(0);
+        var actor = new ActorData();
+        actor.Id = 1;
 
-        var rePurchased = _shop.Purchase(0);
+        _shop.Purchase(actor);
+
+        var rePurchased = _shop.Purchase(actor);
         Assert.False(rePurchased);
-    }
-
-    [Test]
-    public void provided_negative_id()
-    {
-        Assert.False(_shop.Purchase(-7));
     }
 }

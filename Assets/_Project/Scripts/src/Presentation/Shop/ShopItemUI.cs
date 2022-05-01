@@ -32,6 +32,7 @@ namespace Froggi.Presentation
 		[SerializeField] private Outline _itemOutline;
 
 		private ActorData _actorData;
+		private bool _isSelected;
 
 		public void Initialize(int itemIndex, Sprite avatar, ActorData actorData, UnityAction<int> onSelect = null,
 			UnityAction<int> onPurchase = null)
@@ -53,13 +54,36 @@ namespace Froggi.Presentation
 			{
 				_actorData = value;
 
-				SetName(_actorData.Name);
-				SetSpeed(_actorData.Speed);
-				SetPower(_actorData.Power);
-				SetPrice(_actorData.Price);
+				_name.text = value.Name;
+				_speed.fillAmount = value.Speed / 100f;
+				_power.fillAmount = value.Power / 100f;
+				_price.text = value.Price.ToString();
 
 				if (_actorData.IsPurchased)
 					SetAsPurchased();
+			}
+		}
+
+		public bool IsPurchased
+		{
+			get => ActorData.IsPurchased;
+			set
+			{
+				var data = ActorData;
+				data.IsPurchased = value;
+				ActorData = data;
+			}
+		}
+
+		public bool IsSelected
+		{
+			get => _isSelected;
+			set
+			{
+				_isSelected = value;
+				_itemOutline.enabled = _isSelected;
+				_itemImage.color = _itemSelected;
+				_itemButton.interactable = !_isSelected;
 			}
 		}
 
@@ -68,29 +92,16 @@ namespace Froggi.Presentation
 			GetComponent<RectTransform>().anchoredPosition += pos;
 		}
 
-		public void SetSprite(Sprite sprite)
+		public void PlayItemShakeAnimation()
+		{
+			transform.DOComplete();
+
+			transform.DOShakePosition(1f, new Vector3(8f, 0f, 0f)).SetEase(Ease.Linear);
+		}
+
+		private void SetSprite(Sprite sprite)
 		{
 			_image.sprite = sprite;
-		}
-
-		private void SetName(string name)
-		{
-			_name.text = name;
-		}
-
-		private void SetSpeed(int value)
-		{
-			_speed.fillAmount = value / 100f;
-		}
-
-		private void SetPower(int value)
-		{
-			_power.fillAmount = value / 100f;
-		}
-
-		private void SetPrice(int value)
-		{
-			_price.text = value.ToString();
 		}
 
 		private void SetAsPurchased()
@@ -99,27 +110,6 @@ namespace Froggi.Presentation
 			_itemButton.interactable = true;
 
 			_itemImage.color = _itemNotSelected;
-		}
-
-		public void SelectItem()
-		{
-			_itemOutline.enabled = true;
-			_itemImage.color = _itemSelected;
-			_itemButton.interactable = false;
-		}
-
-		public void DeselectItem()
-		{
-			_itemOutline.enabled = false;
-			_itemImage.color = _itemNotSelected;
-			_itemButton.interactable = true;
-		}
-
-		public void PlayItemShakeAnimation()
-		{
-			transform.DOComplete();
-
-			transform.DOShakePosition(1f, new Vector3(8f, 0f, 0f)).SetEase(Ease.Linear);
 		}
 	}
 }

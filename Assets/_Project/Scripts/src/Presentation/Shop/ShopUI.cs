@@ -72,7 +72,7 @@ namespace Froggi.Presentation
 
 				if (i == selectedIndex)
 				{
-					shopItem.SelectItem();
+					shopItem.IsSelected = true;
 				}
 
 				_shopItems.Add(shopItem);
@@ -90,15 +90,13 @@ namespace Froggi.Presentation
 			var previousItem = _shopItems[_previousSelectedItemIndex];
 			var newItem = _shopItems[_newSelectedItemIndex];
 
-			previousItem.DeselectItem();
-			newItem.SelectItem();
+			var actor = _actorsData[index];
 
-			_shop.Select(index);
-		}
+			if (!_shop.Select(actor))
+				return;
 
-		private ShopItemUI GetItemUI(int index)
-		{
-			return _shopItemsContainer.GetChild(index).GetComponent<ShopItemUI>();
+			previousItem.IsSelected = false;
+			newItem.IsSelected = true;
 		}
 
 		private void OnItemPurchase(int index)
@@ -107,23 +105,19 @@ namespace Froggi.Presentation
 
 			var actor = _actorsData[index];
 
-			if (_wallet.Data.Amount < actor.Price)
+			if (!_wallet.CanDraw(actor.Price))
 			{
 				ShowNotEnoughCoinMessage();
 				shopItem.PlayItemShakeAnimation();
 				return;
 			}
 
-			var wallet = _wallet.Data;
-			wallet.Amount -= actor.Price;
-			_wallet.Data = wallet;
-
-			if (!_shop.Purchase(index))
+			if (!_shop.Purchase(actor))
 				return;
 
-			actor.IsPurchased = true;
+			_wallet.Draw(actor.Price);
 
-			shopItem.ActorData = actor;
+			shopItem.IsPurchased = true;
 
 			_purchaseFX.Play();
 		}

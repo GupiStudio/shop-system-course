@@ -20,43 +20,43 @@ MonoBehaviour:
     Power: 5
     Price: 0
     IsPurchased: 1
-  - Id: 0
+  - Id: 1
     Name: Gosy
     Speed: 4
     Power: 6
     Price: 100
     IsPurchased: 0
-  - Id: 0
+  - Id: 2
     Name: Devy
     Speed: 4
     Power: 7
     Price: 200
     IsPurchased: 0
-  - Id: 0
+  - Id: 3
     Name: Smily
     Speed: 7
     Power: 5
     Price: 350
     IsPurchased: 0
-  - Id: 0
+  - Id: 4
     Name: Bob
     Speed: 7
     Power: 7
     Price: 450
     IsPurchased: 0
-  - Id: 0
+  - Id: 5
     Name: Mike
     Speed: 9
     Power: 5
     Price: 600
     IsPurchased: 0
-  - Id: 0
+  - Id: 6
     Name: Lilu
     Speed: 12
     Power: 7
     Price: 800
     IsPurchased: 0
-  - Id: 0
+  - Id: 7
     Name: Many
     Speed: 10
     Power: 9

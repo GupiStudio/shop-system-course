@@ -2,40 +2,21 @@ using UnityEngine;
 
 namespace Gupi2D.TopDownGame
 {
-	public class ActorMovementController : MonoBehaviour
+	public class ActorMovementController
 	{
 		public float Speed = 1f;
 
-		[SerializeField] private Rigidbody2D _rigidbody;
+		private IActor _actor;
 
-		private Vector2 _movement;
-
-		public bool Moving => _movement.x != Mathf.Epsilon || _movement.y != Mathf.Epsilon;
-
-		private void Update()
+		public ActorMovementController(IActor actor)
 		{
-			UpdateMovementDirection();
+			_actor = actor;
 		}
 
-		private void FixedUpdate()
+		public void Move(Vector2 direction)
 		{
-			if (!Moving)
-			{
-				return;
-			}
-
-			Move(_movement);
-		}
-
-		private void UpdateMovementDirection()
-		{
-			_movement.x = Input.GetAxis("Horizontal");
-			_movement.y = Input.GetAxis("Vertical");
-		}
-
-		private void Move(Vector2 direction)
-		{
-			_rigidbody.position += direction * Speed * Time.fixedDeltaTime;
+			if (_actor.Movable)
+				_actor.Position += direction * Speed * Time.fixedDeltaTime;
 		}
 	}
 }

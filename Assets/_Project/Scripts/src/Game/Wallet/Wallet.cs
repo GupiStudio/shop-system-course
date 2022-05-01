@@ -17,5 +17,37 @@ namespace Froggi.Game
 				OnDataChanged?.Invoke();
 			}
 		}
+
+		public bool CanDraw(int amount)
+		{
+			if (amount < 0)
+				return false;
+
+			return Data.Amount >= amount;
+		}
+
+		public bool Add(int amount)
+		{
+			if (amount < 0)
+				return false;
+
+			var data = Data;
+			data.Amount += amount;
+			Data = data;
+
+			return true;
+		}
+
+		public bool Draw(int amount)
+		{
+			if (amount < 0)
+				return false;
+
+			var data = Data;
+			data.Amount -= amount;
+			Data = data;
+
+			return true;
+		}
 	}
 }

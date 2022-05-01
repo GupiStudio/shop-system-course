@@ -26,37 +26,31 @@ namespace Froggi.Game
             }
         }
 
-        public bool Purchase(int id)
+        public bool Purchase(ActorData actor)
         {
-            if (id < 0)
-                return false;
-
             var data = Data;
 
-            if (data.PurchasedActorIndexes.Contains(id))
+            if (data.PurchasedActorIndexes.Contains(actor.Id))
                 return false;
 
-            data.PurchasedActorIndexes.Add(id);
+            data.PurchasedActorIndexes.Add(actor.Id);
             Data = data;
 
             OnActorPurchase?.Invoke();
             return true;
         }
 
-        public bool Select(int id)
+        public bool Select(ActorData actor)
         {
-            if (id < 0)
-                return false;
-
             var data = Data;
 
             if (data.PurchasedActorIndexes.Count == 0)
                 return false;
 
-            if (!data.PurchasedActorIndexes.Contains(id))
+            if (!data.PurchasedActorIndexes.Contains(actor.Id))
                 return false;
 
-            data.CurrentSelectedActorIndex = id;
+            data.CurrentSelectedActorIndex = actor.Id;
             Data = data;
 
             OnActorSelect?.Invoke();

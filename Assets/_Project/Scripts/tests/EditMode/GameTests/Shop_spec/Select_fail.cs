@@ -1,9 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using Froggi.Game;
 using NUnit.Framework;
-using UnityEngine;
-using UnityEngine.TestTools;
 
 [TestFixture]
 public class Select_fail
@@ -17,19 +13,16 @@ public class Select_fail
     }
 
     [Test]
-    public void provided_negative_id()
-    {
-        Assert.False(_shop.Select(-7));
-    }
-
-    [Test]
     public void have_no_purchased_actor()
     {
         var data = _shop.Data;
         data.PurchasedActorIndexes.Clear();
         _shop.Data = data;
 
-        Assert.False(_shop.Select(7));
+        var actor = new ActorData();
+        actor.Id = 7;
+
+        Assert.False(_shop.Select(actor));
     }
 
     [Test]
@@ -39,8 +32,14 @@ public class Select_fail
         data.PurchasedActorIndexes.Clear();
         _shop.Data = data;
 
-        _shop.Purchase(1);
+        var actor = new ActorData();
+        actor.Id = 1;
 
-        Assert.False(_shop.Select(7));
+        _shop.Purchase(actor);
+
+        var otherActor = new ActorData();
+        otherActor.Id = 7;
+
+        Assert.False(_shop.Select(otherActor));
     }
 }

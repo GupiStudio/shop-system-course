@@ -295,7 +295,6 @@ GameObject:
   - component: {fileID: 5745954099513093430}
   - component: {fileID: 6941683473912217263}
   - component: {fileID: 7544341271554936338}
-  - component: {fileID: 5795051164790714407}
   - component: {fileID: 5540735524016216884}
   - component: {fileID: 212298165906210248}
   m_Layer: 0
@@ -357,20 +356,6 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.27
---- !u!114 &5795051164790714407
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5745954099513093431}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ce842fa59b133574681b30dd0fb30e09, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Speed: 5
-  _rigidbody: {fileID: 6941683473912217263}
 --- !u!114 &5540735524016216884
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -383,7 +368,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 385eec1f2e838ad409dace9220539898, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _movementController: {fileID: 5795051164790714407}
+  _rigidbody: {fileID: 6941683473912217263}
   _tagsToCheckWith:
   - coin
   _autoDestroyThis: 0
